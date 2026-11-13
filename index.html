@@ -1,0 +1,2565 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#059669" />
+  <meta name="description" content="Shop MODISHA — Local essentials, household products, and community services delivered right to your door with Black Card & Gold Card loyalty rewards." />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Shop MODISHA" />
+  <title>Shop MODISHA | Local Essentials, Services & Rewards</title>
+
+  <!-- SVG Favicon: Vibrant Emerald Green (#059669) Background with Centered White Shopping Cart -->
+  <link id="dynamic-favicon" rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='112' fill='%23059669'/%3E%3Cpath fill='none' stroke='%23FFFFFF' stroke-width='36' stroke-linecap='round' stroke-linejoin='round' d='M112 144h44l36 184h184l32-128H172'/%3E%3Ccircle cx='212' cy='384' r='26' fill='%23FFFFFF'/%3E%3Ccircle cx='356' cy='384' r='26' fill='%23FFFFFF'/%3E%3C/svg%3E" />
+  <link id="apple-touch-icon" rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='112' fill='%23059669'/%3E%3Cpath fill='none' stroke='%23FFFFFF' stroke-width='36' stroke-linecap='round' stroke-linejoin='round' d='M112 144h44l36 184h184l32-128H172'/%3E%3Ccircle cx='212' cy='384' r='26' fill='%23FFFFFF'/%3E%3Ccircle cx='356' cy='384' r='26' fill='%23FFFFFF'/%3E%3C/svg%3E" />
+
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+          },
+          colors: {
+            obsidian: '#09090B',
+            charcoal: '#111827',
+            emeraldBrand: {
+              DEFAULT: '#059669',
+              light: '#10B981',
+              dark: '#047857',
+            }
+          }
+        }
+      }
+    };
+  </script>
+
+  <!-- Supabase JS SDK v2 -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body class="bg-white text-zinc-900 font-sans antialiased selection:bg-emerald-500 selection:text-white overflow-x-hidden">
+
+  <!-- Toast / Non-Blocking Notification Container -->
+  <div id="toast-container" class="fixed top-4 right-4 z-[100] flex flex-col gap-2 max-w-sm w-full pointer-events-none px-4 sm:px-0"></div>
+
+  <!-- PWA Install Banner (Shows if browser supports beforeinstallprompt) -->
+  <div id="pwa-install-banner" class="hidden bg-zinc-950 text-white border-b border-emerald-500/30 px-4 py-2.5 text-sm">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
+      <div class="flex items-center gap-2.5">
+        <span class="inline-flex items-center justify-center w-7 h-7 rounded-lg bg-emerald-600 text-white">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+        </span>
+        <span>Install <strong>Shop MODISHA</strong> on your device for instant ordering &amp; Black Card access.</span>
+      </div>
+      <div class="flex items-center gap-2">
+        <button id="pwa-install-btn" class="px-3.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs transition cursor-pointer">Install App</button>
+        <button id="pwa-dismiss-btn" class="px-2 py-1 text-zinc-400 hover:text-white text-xs cursor-pointer">Dismiss</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- 1. HEADER / NAVBAR                                                    -->
+  <!-- ===================================================================== -->
+  <header class="sticky top-0 z-50 bg-zinc-950/95 backdrop-blur-md text-white border-b border-zinc-800 shadow-lg">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16 sm:h-20">
+        <!-- Brand Logo -->
+        <a href="#top" onclick="switchView('storefront')" class="flex items-center gap-3 group">
+          <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-emerald-600 flex items-center justify-center shadow-lg shadow-emerald-600/30 group-hover:bg-emerald-500 transition">
+            <svg class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="9" cy="21" r="1"></circle>
+              <circle cx="20" cy="21" r="1"></circle>
+              <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+            </svg>
+          </div>
+          <div>
+            <span class="text-lg sm:text-xl font-extrabold tracking-tight text-white">Shop <span class="text-emerald-400">MODISHA</span></span>
+            <span class="hidden sm:block text-[11px] text-zinc-400 tracking-wider uppercase">Essentials &bull; Services &bull; Rewards</span>
+          </div>
+        </a>
+
+        <!-- Desktop Navigation Links -->
+        <nav class="hidden lg:flex items-center gap-6 text-sm font-medium text-zinc-300">
+          <a href="#catalog" onclick="switchView('storefront')" class="hover:text-emerald-400 transition">Catalog &amp; Services</a>
+          <a href="#order-section" onclick="switchView('storefront')" class="hover:text-emerald-400 transition">Place Order</a>
+          <a href="#rewards-info" onclick="switchView('storefront')" class="hover:text-emerald-400 transition">Black Card Rewards</a>
+          <a href="#courier-apply" onclick="switchView('storefront')" class="hover:text-emerald-400 transition">Become a Courier</a>
+        </nav>
+
+        <!-- Action Buttons -->
+        <div class="flex items-center gap-2 sm:gap-3">
+          <!-- Customer Portal Button -->
+          <button id="nav-customer-btn" onclick="openCustomerPortal()" class="px-3 sm:px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs sm:text-sm font-semibold transition flex items-center gap-1.5 shadow-md shadow-emerald-600/20 cursor-pointer">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+            <span id="nav-customer-label">Customer Login</span>
+          </button>
+
+          <!-- Courier Portal Button -->
+          <button id="nav-courier-btn" onclick="openCourierPortal()" class="px-3 sm:px-4 py-2 rounded-xl bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 text-white text-xs sm:text-sm font-semibold transition flex items-center gap-1.5 cursor-pointer">
+            <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="18.5" cy="17.5" r="3.5"/><path d="M15 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-3 11.5V14l-3-3 4-3 2 3h2"/></svg>
+            <span id="nav-courier-label" class="hidden sm:inline">Courier Portal</span>
+            <span class="sm:hidden">Courier</span>
+          </button>
+
+          <!-- Discreet Admin Lock Button -->
+          <button onclick="openAdminPortal()" title="Staff Access" aria-label="Staff Access" class="p-2 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-500 hover:text-emerald-400 border border-zinc-800 transition cursor-pointer">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===================================================================== -->
+  <!-- MAIN STOREFRONT VIEW                                                  -->
+  <!-- ===================================================================== -->
+  <main id="view-storefront">
+
+    <!-- 2. HERO SECTION -->
+    <section id="top" class="relative bg-zinc-950 text-white overflow-hidden">
+      <!-- Subtle Emerald Grid / Glow Background -->
+      <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(16,185,129,0.18),transparent_55%)] pointer-events-none"></div>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20 relative z-10">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+          <div class="lg:col-span-7 space-y-6">
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-semibold tracking-wide uppercase">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+              Fast Local Delivery &amp; Community Services
+            </div>
+            <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight">
+              Everyday Essentials &amp; Local Services, <span class="text-emerald-400">Delivered Fast.</span>
+            </h1>
+            <p class="text-zinc-300 text-base sm:text-lg max-w-2xl leading-relaxed">
+              <strong>Shop MODISHA</strong> connects your household with daily groceries, airtime, cold drinks, and trusted local services—from yard cleaning and firewood supply to water delivery, event DJs, and transport—backed by our exclusive <strong>Black Card</strong> &amp; <strong>Gold Card</strong> loyalty ecosystem.
+            </p>
+            <div class="flex flex-wrap items-center gap-3 sm:gap-4 pt-2">
+              <a href="#order-section" class="px-6 py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm sm:text-base transition shadow-lg shadow-emerald-600/30 flex items-center gap-2">
+                <span>Start Ordering</span>
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </a>
+              <a href="#courier-apply" class="px-6 py-3.5 rounded-xl bg-white/10 hover:bg-white/15 border border-white/15 text-white font-semibold text-sm sm:text-base transition">
+                Join Courier Team
+              </a>
+            </div>
+            <!-- Trust Stats -->
+            <div class="grid grid-cols-3 gap-4 pt-6 border-t border-zinc-800/80 max-w-lg">
+              <div>
+                <p class="text-xl sm:text-2xl font-extrabold text-emerald-400">+R1 / Order</p>
+                <p class="text-xs text-zinc-400">Black Card Cashback</p>
+              </div>
+              <div>
+                <p class="text-xl sm:text-2xl font-extrabold text-white">WhatsApp</p>
+                <p class="text-xs text-zinc-400">Instant Order Dispatch</p>
+              </div>
+              <div>
+                <p class="text-xl sm:text-2xl font-extrabold text-emerald-400">Eco-Fast</p>
+                <p class="text-xs text-zinc-400">Bicycle Courier Fleet</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Hero Right Visual: Black Card Preview Showcase -->
+          <div class="lg:col-span-5">
+            <div class="relative mx-auto max-w-md">
+              <div class="absolute -inset-1 bg-gradient-to-r from-emerald-600 to-emerald-400 rounded-3xl blur opacity-25"></div>
+              <div class="relative bg-gradient-to-br from-zinc-900 via-black to-zinc-900 border border-zinc-700/80 rounded-3xl p-6 sm:p-8 shadow-2xl">
+                <div class="flex items-center justify-between mb-8">
+                  <div class="flex items-center gap-2.5">
+                    <div class="w-9 h-9 rounded-lg bg-emerald-600 flex items-center justify-center">
+                      <svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+                    </div>
+                    <div>
+                      <p class="text-xs uppercase tracking-widest text-emerald-400 font-bold">Shop MODISHA</p>
+                      <p class="text-sm font-bold text-white">BLACK CARD MEMBER</p>
+                    </div>
+                  </div>
+                  <span class="px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-semibold border border-emerald-500/30">VIP LOYALTY</span>
+                </div>
+                <div class="space-y-1 mb-6">
+                  <p class="text-xs text-zinc-400 uppercase tracking-wider">Available Rewards Balance</p>
+                  <p class="text-3xl sm:text-4xl font-black text-white">R 50.00 <span class="text-xs font-medium text-emerald-400">Ready to Spend</span></p>
+                </div>
+                <div class="flex items-center justify-between pt-4 border-t border-zinc-800 text-xs text-zinc-400">
+                  <div>
+                    <p class="uppercase text-[10px] text-zinc-500">Card ID</p>
+                    <p class="font-mono text-zinc-200 font-semibold">MOD-BLK-001</p>
+                  </div>
+                  <div class="text-right">
+                    <p class="uppercase text-[10px] text-zinc-500">Perk</p>
+                    <p class="text-emerald-400 font-semibold">Earn R1 Every Order</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. PROMOTIONAL BANNER SECTION (1500px x 500px Aspect Ratio 3:1 Directly Under Hero) -->
+    <section aria-label="Featured Promotion" class="bg-zinc-100 py-6 sm:py-8 border-b border-zinc-200">
+      <div class="max-w-[1500px] mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="relative w-full aspect-[3/1] min-h-[160px] sm:min-h-[240px] rounded-2xl overflow-hidden shadow-xl border border-zinc-200 bg-zinc-950">
+          <!-- Custom Admin-Uploaded / URL Banner Image (Hidden unless set by Admin) -->
+          <img id="promo-banner-img" src="" alt="Shop MODISHA Special Promotion" class="hidden w-full h-full object-cover" onerror="this.classList.add('hidden'); document.getElementById('promo-banner-default').classList.remove('hidden');" />
+
+          <!-- Default High-Impact 1500x500 Promotional Graphic -->
+          <div id="promo-banner-default" class="w-full h-full bg-gradient-to-r from-zinc-950 via-zinc-900 to-emerald-950 flex items-center justify-between px-6 sm:px-14 lg:px-20 relative overflow-hidden">
+            <div class="absolute right-0 top-0 bottom-0 w-1/2 bg-[radial-gradient(circle_at_center,rgba(16,185,129,0.28),transparent_70%)] pointer-events-none"></div>
+            <div class="relative z-10 max-w-2xl space-y-1.5 sm:space-y-3">
+              <span id="promo-badge-text" class="inline-block px-3 py-1 rounded-full bg-emerald-500 text-zinc-950 font-extrabold text-[10px] sm:text-xs uppercase tracking-wider">Weekend Mega Combo Special</span>
+              <h2 id="promo-title-text" class="text-lg sm:text-3xl lg:text-5xl font-black text-white tracking-tight leading-tight">
+                Fresh Bread, Milk &amp; 2L Cold Drink Bundle + <span class="text-emerald-400">10% OFF</span>
+              </h2>
+              <p id="promo-subtitle-text" class="text-xs sm:text-base text-zinc-300 line-clamp-2">
+                Use promo code <strong class="text-emerald-400 font-mono">MODISHA10</strong> at checkout &amp; earn instant Black Card rewards on every delivery!
+              </p>
+            </div>
+            <div class="hidden md:flex flex-col items-end justify-center relative z-10 text-right shrink-0">
+              <div class="w-24 h-24 lg:w-32 lg:h-32 rounded-3xl bg-emerald-600/20 border-2 border-emerald-400/50 flex flex-col items-center justify-center p-3 backdrop-blur-sm">
+                <span class="text-emerald-300 text-xs font-bold uppercase">Code</span>
+                <span class="text-white font-mono font-black text-base lg:text-xl">MODISHA10</span>
+                <span class="text-[10px] text-emerald-400 mt-1">1500 &times; 500</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. SERVICES & PRODUCTS CATALOG SHOWCASE -->
+    <section id="catalog" class="py-12 sm:py-16 bg-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
+          <div>
+            <span class="text-emerald-600 font-bold text-xs uppercase tracking-wider">Tap to Add to Order</span>
+            <h2 class="text-2xl sm:text-4xl font-black text-zinc-950 mt-1">Products &amp; Community Services</h2>
+          </div>
+          <!-- Category Filter Tabs -->
+          <div class="inline-flex p-1 rounded-xl bg-zinc-100 border border-zinc-200 self-start">
+            <button onclick="filterCatalog('all')" id="cat-tab-all" class="px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold bg-zinc-950 text-white transition cursor-pointer">All Items</button>
+            <button onclick="filterCatalog('product')" id="cat-tab-product" class="px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold text-zinc-600 hover:text-zinc-950 transition cursor-pointer">Daily Products</button>
+            <button onclick="filterCatalog('service')" id="cat-tab-service" class="px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold text-zinc-600 hover:text-zinc-950 transition cursor-pointer">Local Services</button>
+          </div>
+        </div>
+
+        <!-- Catalog Grid -->
+        <div id="catalog-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          <!-- Populated dynamically via JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. BLACK CARD REWARDS PROGRAM EXPLAINER -->
+    <section id="rewards-info" class="py-12 bg-zinc-950 text-white border-y border-zinc-800">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-2xl mx-auto mb-10">
+          <span class="text-emerald-400 font-bold text-xs uppercase tracking-widest">Loyalty Ecosystem</span>
+          <h2 class="text-2xl sm:text-4xl font-black mt-1">How Shop MODISHA Rewards Work</h2>
+          <p class="text-zinc-400 text-sm sm:text-base mt-2">Every order brings you closer to free groceries and services with our Black Card loyalty program.</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="bg-zinc-900 border border-zinc-800 rounded-2xl p-6">
+            <div class="w-11 h-11 rounded-xl bg-emerald-600/20 border border-emerald-500/30 text-emerald-400 flex items-center justify-center font-black text-lg mb-4">R1</div>
+            <h3 class="text-lg font-bold text-white mb-2">Earn R1 Per Order</h3>
+            <p class="text-zinc-400 text-sm leading-relaxed">Every completed order placed through your Shop MODISHA account automatically credits <strong>R1.00</strong> onto your Black Card.</p>
+          </div>
+          <div class="bg-zinc-900 border border-zinc-800 rounded-2xl p-6">
+            <div class="w-11 h-11 rounded-xl bg-emerald-600/20 border border-emerald-500/30 text-emerald-400 flex items-center justify-center font-black text-lg mb-4">R10</div>
+            <h3 class="text-lg font-bold text-white mb-2">Share Rewards (R10+ Min)</h3>
+            <p class="text-zinc-400 text-sm leading-relaxed">Once your balance reaches at least <strong>R10.00</strong>, you can send or share rewards directly to friends and family using their Black Card ID.</p>
+          </div>
+          <div class="bg-zinc-900 border border-zinc-800 rounded-2xl p-6">
+            <div class="w-11 h-11 rounded-xl bg-emerald-600/20 border border-emerald-500/30 text-emerald-400 flex items-center justify-center font-black text-lg mb-4">R50</div>
+            <h3 class="text-lg font-bold text-white mb-2">Redeem at R50 Minimum</h3>
+            <p class="text-zinc-400 text-sm leading-relaxed">Spend your Black Card rewards on Shop MODISHA orders once your balance reaches <strong>R50.00 or more</strong> (exclusive to the Shop MODISHA app).</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. INTERACTIVE ORDER FORM SECTION (Requires Customer Login) -->
+    <section id="order-section" class="py-12 sm:py-16 bg-zinc-50">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="bg-white rounded-3xl shadow-xl border border-zinc-200 overflow-hidden">
+          <!-- Order Header -->
+          <div class="bg-zinc-950 text-white px-6 sm:px-8 py-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div>
+              <span class="text-emerald-400 text-xs font-bold uppercase tracking-wider">Instant WhatsApp Checkout</span>
+              <h2 class="text-2xl sm:text-3xl font-black mt-0.5">Place Your Order</h2>
+            </div>
+            <div id="order-auth-badge" class="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-zinc-900 border border-zinc-700 text-xs">
+              <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+              <span>Customer Login Required</span>
+            </div>
+          </div>
+
+          <!-- Login Required Gate Banner (Shown if Customer is NOT logged in) -->
+          <div id="order-login-gate" class="p-6 sm:p-10 text-center bg-emerald-50/60 border-b border-emerald-100">
+            <div class="w-14 h-14 rounded-2xl bg-emerald-600 text-white flex items-center justify-center mx-auto mb-4 shadow-lg shadow-emerald-600/20">
+              <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+            </div>
+            <h3 class="text-xl font-extrabold text-zinc-950">Sign In with Your Customer Account to Order</h3>
+            <p class="text-zinc-600 text-sm max-w-md mx-auto mt-2 mb-6">
+              Log in using your registered <strong>WhatsApp Number</strong> and <strong>PIN</strong> to place orders, earn +R1 Black Card rewards, and redeem your balance.
+            </p>
+            <button onclick="openCustomerPortal()" class="px-6 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm transition shadow-md cursor-pointer">
+              Customer Login / Open Dashboard
+            </button>
+          </div>
+
+          <!-- Actual Order Form -->
+          <form id="shop-order-form" onsubmit="handleOrderSubmit(event)" class="p-6 sm:p-8 space-y-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              <div>
+                <label for="order-name" class="block text-xs font-bold uppercase tracking-wider text-zinc-700 mb-1.5">Customer Name *</label>
+                <input type="text" id="order-name" required placeholder="Enter your name" class="w-full px-4 py-3 rounded-xl border border-zinc-300 focus:border-emerald-600 focus:ring-2 focus:ring-emerald-500/20 outline-none text-sm transition" />
+              </div>
+              <div>
+                <label for="order-whatsapp" class="block text-xs font-bold uppercase tracking-wider text-zinc-700 mb-1.5">WhatsApp Number *</label>
+                <input type="tel" id="order-whatsapp" required placeholder="e.g. 0821234567" class="w-full px-4 py-3 rounded-xl border border-zinc-300 focus:border-emerald-600 focus:ring-2 focus:ring-emerald-500/20 outline-none text-sm transition" />
+              </div>
+            </div>
+
+            <!-- Interactive Quick-Item Builder + List Textarea -->
+            <div class="bg-zinc-50 p-4 sm:p-5 rounded-2xl border border-zinc-200 space-y-4">
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                <label class="block text-xs font-bold uppercase tracking-wider text-zinc-800">Quick Add Products or Services</label>
+                <span class="text-xs text-zinc-500">Select an item &amp; quantity to append below</span>
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-12 gap-3">
+                <select id="quick-item-select" class="sm:col-span-7 px-3.5 py-2.5 rounded-xl border border-zinc-300 bg-white text-sm outline-none focus:border-emerald-600">
+                  <option value="">-- Choose Product or Service --</option>
+                  <optgroup label="Daily Products">
+                    <option value="Bread (Loaf)">Bread (Loaf)</option>
+                    <option value="Fresh Milk (2L)">Fresh Milk (2L)</option>
+                    <option value="Airtime Voucher">Airtime Voucher</option>
+                    <option value="Cold Drink (2L)">Cold Drink (2L)</option>
+                    <option value="Maize Meal (5kg)">Maize Meal (5kg)</option>
+                    <option value="Eggs (Tray of 30)">Eggs (Tray of 30)</option>
+                  </optgroup>
+                  <optgroup label="Community Services">
+                    <option value="Cleaning of Yard">Cleaning of Yard</option>
+                    <option value="Fire Wood Supply">Fire Wood Supply</option>
+                    <option value="Water Supply">Water Supply</option>
+                    <option value="DJ for a Function">DJ for a Function</option>
+                    <option value="Local Transportation">Local Transportation</option>
+                  </optgroup>
+                </select>
+                <input type="number" id="quick-item-qty" min="1" value="1" placeholder="Qty" class="sm:col-span-2 px-3.5 py-2.5 rounded-xl border border-zinc-300 bg-white text-sm outline-none focus:border-emerald-600" />
+                <button type="button" onclick="appendQuickItem()" class="sm:col-span-3 px-4 py-2.5 rounded-xl bg-zinc-950 hover:bg-zinc-800 text-white font-semibold text-sm transition cursor-pointer">
+                  + Add Item
+                </button>
+              </div>
+
+              <div>
+                <label for="order-items" class="block text-xs font-bold uppercase tracking-wider text-zinc-700 mb-1.5">List of Products or Services Ordering (with Quantities) *</label>
+                <textarea id="order-items" rows="4" required placeholder="e.g.&#10;- 2x Bread&#10;- 1x Fresh Milk (2L)&#10;- 1x Fire Wood Supply&#10;- 1x Cleaning of Yard" class="w-full px-4 py-3 rounded-xl border border-zinc-300 bg-white focus:border-emerald-600 focus:ring-2 focus:ring-emerald-500/20 outline-none text-sm transition"></textarea>
+              </div>
+            </div>
+
+            <!-- Cash on Hand & Payment Method -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              <div>
+                <label for="order-cash" class="block text-xs font-bold uppercase tracking-wider text-zinc-700 mb-1.5">Amount of Cash You Have (R) *</label>
+                <div class="relative">
+                  <span class="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500 font-bold text-sm">R</span>
+                  <input type="number" id="order-cash" min="0" step="0.01" required placeholder="0.00" class="w-full pl-9 pr-4 py-3 rounded-xl border border-zinc-300 focus:border-emerald-600 focus:ring-2 focus:ring-emerald-500/20 outline-none text-sm transition" />
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-zinc-700 mb-1.5">Payment Method *</label>
+                <div class="grid grid-cols-2 gap-3">
+                  <label class="cursor-pointer">
+                    <input type="radio" name="payment-method" value="Cash" checked class="peer sr-only" />
+                    <div class="py-3 px-4 rounded-xl border border-zinc-300 text-center text-sm font-semibold peer-checked:bg-emerald-600 peer-checked:text-white peer-checked:border-emerald-600 transition">
+                      Cash
+                    </div>
+                  </label>
+                  <label class="cursor-pointer">
+                    <input type="radio" name="payment-method" value="Card" class="peer sr-only" />
+                    <div class="py-3 px-4 rounded-xl border border-zinc-300 text-center text-sm font-semibold peer-checked:bg-emerald-600 peer-checked:text-white peer-checked:border-emerald-600 transition">
+                      Card
+                    </div>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Black Card Rewards Spend & Discount Code -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              <div class="bg-zinc-950 text-white p-4 rounded-2xl border border-zinc-800">
+                <div class="flex items-center justify-between mb-1.5">
+                  <label for="order-rewards-spend" class="text-xs font-bold uppercase tracking-wider text-emerald-400">Spend Black Card Rewards (R)</label>
+                  <span id="order-available-rewards" class="text-xs text-zinc-400">Bal: R0.00</span>
+                </div>
+                <input type="number" id="order-rewards-spend" min="0" step="0.01" value="0" placeholder="0 (Min R50 to spend)" class="w-full px-3.5 py-2.5 rounded-xl bg-zinc-900 border border-zinc-700 text-white text-sm outline-none focus:border-emerald-500" />
+                <p class="text-[11px] text-zinc-400 mt-1.5">Spendable only when your Black Card balance is <strong>R50 or more</strong>.</p>
+              </div>
+
+              <div class="bg-emerald-50/70 p-4 rounded-2xl border border-emerald-200 flex flex-col justify-between">
+                <div>
+                  <label for="order-discount" class="block text-xs font-bold uppercase tracking-wider text-emerald-900 mb-1.5">Discount Code (Optional)</label>
+                  <input type="text" id="order-discount" placeholder="e.g. MODISHA10" class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-emerald-300 text-zinc-900 font-mono uppercase text-sm outline-none focus:border-emerald-600" />
+                </div>
+                <p class="text-[11px] text-emerald-800 mt-1.5">Enter a special promo code if available.</p>
+              </div>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="w-full py-4 px-6 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-base shadow-lg shadow-emerald-600/25 transition flex items-center justify-center gap-2.5 cursor-pointer">
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824z"/></svg>
+              <span>Send Order to Shop MODISHA WhatsApp (+R1 Reward)</span>
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. BICYCLE COURIER APPLICATION SECTION -->
+    <section id="courier-apply" class="py-12 sm:py-16 bg-white border-t border-zinc-200">
+      <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="bg-zinc-950 text-white rounded-3xl p-6 sm:p-10 lg:p-12 shadow-2xl grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          <div class="lg:col-span-6 space-y-4">
+            <span class="inline-block px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-400 text-xs font-bold uppercase tracking-wider">Careers &amp; Riders</span>
+            <h2 class="text-2xl sm:text-4xl font-black leading-tight">Apply to Become a Shop MODISHA Bicycle Courier</h2>
+            <p class="text-zinc-300 text-sm sm:text-base leading-relaxed">
+              Own a bicycle and want to earn reliable income delivering local orders in your community? Apply now! Approved riders receive a <strong>Shop MODISHA Gold Card</strong> with trip rewards spendable from just <strong>R10</strong>.
+            </p>
+            <div class="pt-2">
+              <button type="button" onclick="openCourierPortal()" class="text-emerald-400 hover:text-emerald-300 text-sm font-semibold underline underline-offset-4 cursor-pointer">
+                Already a registered courier? Log in to your Courier Dashboard &rarr;
+              </button>
+            </div>
+          </div>
+
+          <form onsubmit="handleCourierApplication(event)" class="lg:col-span-6 bg-zinc-900 border border-zinc-800 p-6 rounded-2xl space-y-4">
+            <h3 class="text-lg font-bold text-white">Bicycle Courier Job Application</h3>
+            <div>
+              <label for="apply-courier-name" class="block text-xs font-semibold text-zinc-400 uppercase mb-1">Delivery Guy Name *</label>
+              <input type="text" id="apply-courier-name" required placeholder="Enter your full name" class="w-full px-4 py-2.5 rounded-xl bg-zinc-950 border border-zinc-700 text-white text-sm outline-none focus:border-emerald-500" />
+            </div>
+            <div>
+              <label for="apply-courier-wa" class="block text-xs font-semibold text-zinc-400 uppercase mb-1">WhatsApp Number *</label>
+              <input type="tel" id="apply-courier-wa" required placeholder="e.g. 0821234567" class="w-full px-4 py-2.5 rounded-xl bg-zinc-950 border border-zinc-700 text-white text-sm outline-none focus:border-emerald-500" />
+            </div>
+            <div>
+              <label for="apply-courier-email" class="block text-xs font-semibold text-zinc-400 uppercase mb-1">Email Address *</label>
+              <input type="email" id="apply-courier-email" required placeholder="rider@example.com" class="w-full px-4 py-2.5 rounded-xl bg-zinc-950 border border-zinc-700 text-white text-sm outline-none focus:border-emerald-500" />
+            </div>
+            <button type="submit" class="w-full py-3.5 px-5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm transition flex items-center justify-center gap-2 cursor-pointer">
+              <span>Send Application via WhatsApp</span>
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===================================================================== -->
+  <!-- CUSTOMER PORTAL VIEW (LOGIN + BLACK CARD DASHBOARD)                   -->
+  <!-- ===================================================================== -->
+  <section id="view-customer" class="hidden min-h-[80vh] bg-zinc-50 py-10">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="mb-6 flex items-center justify-between">
+        <button onclick="switchView('storefront')" class="inline-flex items-center gap-2 text-sm font-semibold text-zinc-600 hover:text-zinc-950 cursor-pointer">
+          &larr; Back to Storefront
+        </button>
+        <button id="customer-logout-btn" onclick="logoutCustomer()" class="hidden px-4 py-2 rounded-xl bg-red-600 hover:bg-red-500 text-white text-xs font-bold transition cursor-pointer">
+          Logout Customer
+        </button>
+      </div>
+
+      <!-- Customer Login Box -->
+      <div id="customer-login-box" class="max-w-md mx-auto bg-white rounded-3xl shadow-xl border border-zinc-200 p-6 sm:p-8">
+        <div class="w-12 h-12 rounded-2xl bg-emerald-600 text-white flex items-center justify-center mb-4">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+        </div>
+        <h2 class="text-2xl font-black text-zinc-950">Customer Black Card Login</h2>
+        <p class="text-zinc-500 text-sm mt-1 mb-6">Enter your registered WhatsApp Number and PIN to access your rewards &amp; place orders.</p>
+
+        <form onsubmit="handleCustomerLogin(event)" class="space-y-4">
+          <div>
+            <label class="block text-xs font-bold uppercase text-zinc-700 mb-1">WhatsApp Number</label>
+            <input type="tel" id="cust-login-wa" required placeholder="e.g. 0820000001" class="w-full px-4 py-3 rounded-xl border border-zinc-300 text-sm outline-none focus:border-emerald-600" />
+          </div>
+          <div>
+            <label class="block text-xs font-bold uppercase text-zinc-700 mb-1">Security PIN</label>
+            <input type="password" id="cust-login-pin" required placeholder="Enter your PIN" class="w-full px-4 py-3 rounded-xl border border-zinc-300 text-sm outline-none focus:border-emerald-600" />
+          </div>
+          <button type="submit" class="w-full py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm transition cursor-pointer">
+            Sign In to Black Card
+          </button>
+        </form>
+        <p class="text-xs text-zinc-400 mt-5 text-center">
+          New customer? Ask Shop MODISHA Admin to register your Black Card account or message us on WhatsApp.
+        </p>
+      </div>
+
+      <!-- Customer Authenticated Dashboard -->
+      <div id="customer-dashboard-box" class="hidden space-y-6">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          <!-- Digital Black Card -->
+          <div class="lg:col-span-6 bg-gradient-to-br from-zinc-950 via-zinc-900 to-black text-white rounded-3xl p-6 sm:p-8 border border-zinc-800 shadow-2xl flex flex-col justify-between">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-xs font-bold uppercase tracking-widest text-emerald-400">Shop MODISHA</p>
+                <h3 class="text-lg font-extrabold">BLACK CARD REWARDS</h3>
+              </div>
+              <span class="px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-bold border border-emerald-500/30">ACTIVE</span>
+            </div>
+
+            <div class="my-8">
+              <p class="text-xs text-zinc-400 uppercase tracking-wider">Current Black Card Balance</p>
+              <p id="cust-dash-balance" class="text-4xl sm:text-5xl font-black text-white mt-1">R 0.00</p>
+              <p id="cust-dash-spend-status" class="text-xs text-emerald-400 mt-2">Earn R1 per order &bull; Spendable at R50 minimum</p>
+            </div>
+
+            <div class="pt-4 border-t border-zinc-800 flex flex-wrap items-center justify-between gap-4 text-xs">
+              <div>
+                <p class="text-zinc-500 uppercase text-[10px]">Cardholder</p>
+                <p id="cust-dash-name" class="font-bold text-sm text-white">-</p>
+              </div>
+              <div>
+                <p class="text-zinc-500 uppercase text-[10px]">Black Card ID</p>
+                <p id="cust-dash-cardid" class="font-mono font-bold text-sm text-emerald-400">-</p>
+              </div>
+              <div>
+                <p class="text-zinc-500 uppercase text-[10px]">WhatsApp</p>
+                <p id="cust-dash-wa" class="font-semibold text-zinc-300">-</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Share / Transfer Rewards Card -->
+          <div class="lg:col-span-6 bg-white rounded-3xl p-6 sm:p-8 border border-zinc-200 shadow-lg flex flex-col justify-between">
+            <div>
+              <span class="text-emerald-600 font-bold text-xs uppercase tracking-wider">Peer-to-Peer Transfer</span>
+              <h3 class="text-xl font-black text-zinc-950 mt-1">Send or Share Rewards</h3>
+              <p class="text-zinc-500 text-xs sm:text-sm mt-1">
+                Send rewards to another Shop MODISHA user via their <strong>Black Card ID</strong>. Requires a minimum balance of <strong>R10.00</strong>.
+              </p>
+
+              <form onsubmit="handleCustomerTransfer(event)" class="mt-5 space-y-4">
+                <div>
+                  <label class="block text-xs font-bold uppercase text-zinc-700 mb-1">Recipient Black Card ID *</label>
+                  <input type="text" id="transfer-target-id" required placeholder="e.g. MOD-BLK-002" class="w-full px-4 py-2.5 rounded-xl border border-zinc-300 font-mono uppercase text-sm outline-none focus:border-emerald-600" />
+                </div>
+                <div>
+                  <label class="block text-xs font-bold uppercase text-zinc-700 mb-1">Amount to Send (R) *</label>
+                  <input type="number" id="transfer-amount" min="1" step="0.01" required placeholder="e.g. 10.00" class="w-full px-4 py-2.5 rounded-xl border border-zinc-300 text-sm outline-none focus:border-emerald-600" />
+                </div>
+                <button type="submit" class="w-full py-3 rounded-xl bg-zinc-950 hover:bg-zinc-800 text-white font-bold text-sm transition cursor-pointer">
+                  Send Rewards Now
+                </button>
+              </form>
+            </div>
+
+            <div class="mt-5 pt-4 border-t border-zinc-100 flex items-center justify-between">
+              <span class="text-xs text-zinc-500">Ready to shop &amp; earn +R1?</span>
+              <button onclick="switchView('storefront'); document.getElementById('order-section').scrollIntoView({behavior:'smooth'});" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition cursor-pointer">
+                Go to Order Form &rarr;
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Customer Notifications & Messages Feed -->
+        <div class="bg-white rounded-3xl p-6 sm:p-8 border border-zinc-200 shadow-lg">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-lg font-black text-zinc-950">Dashboard Notifications &amp; Admin Messages</h3>
+            <span class="text-xs text-zinc-400">Live updates</span>
+          </div>
+          <div id="cust-notifications-list" class="space-y-3">
+            <!-- Populated dynamically -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- COURIER (DELIVERY GUY) PORTAL VIEW (LOGIN + GOLD CARD DASHBOARD)      -->
+  <!-- ===================================================================== -->
+  <section id="view-courier" class="hidden min-h-[80vh] bg-zinc-50 py-10">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="mb-6 flex items-center justify-between">
+        <button onclick="switchView('storefront')" class="inline-flex items-center gap-2 text-sm font-semibold text-zinc-600 hover:text-zinc-950 cursor-pointer">
+          &larr; Back to Storefront
+        </button>
+        <button id="courier-logout-btn" onclick="logoutCourier()" class="hidden px-4 py-2 rounded-xl bg-red-600 hover:bg-red-500 text-white text-xs font-bold transition cursor-pointer">
+          Logout Courier
+        </button>
+      </div>
+
+      <!-- Courier Login Box -->
+      <div id="courier-login-box" class="max-w-md mx-auto bg-white rounded-3xl shadow-xl border border-zinc-200 p-6 sm:p-8">
+        <div class="w-12 h-12 rounded-2xl bg-zinc-950 text-emerald-400 flex items-center justify-center mb-4">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="18.5" cy="17.5" r="3.5"/><path d="M15 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-3 11.5V14l-3-3 4-3 2 3h2"/></svg>
+        </div>
+        <h2 class="text-2xl font-black text-zinc-950">Bicycle Courier Login</h2>
+        <p class="text-zinc-500 text-sm mt-1 mb-6">Log in with your registered WhatsApp Number and PIN to view trips, earnings &amp; Gold Card rewards.</p>
+
+        <form onsubmit="handleCourierLogin(event)" class="space-y-4">
+          <div>
+            <label class="block text-xs font-bold uppercase text-zinc-700 mb-1">WhatsApp Number</label>
+            <input type="tel" id="cour-login-wa" required placeholder="e.g. 0821112222" class="w-full px-4 py-3 rounded-xl border border-zinc-300 text-sm outline-none focus:border-emerald-600" />
+          </div>
+          <div>
+            <label class="block text-xs font-bold uppercase text-zinc-700 mb-1">Courier PIN</label>
+            <input type="password" id="cour-login-pin" required placeholder="Enter your PIN" class="w-full px-4 py-3 rounded-xl border border-zinc-300 text-sm outline-none focus:border-emerald-600" />
+          </div>
+          <button type="submit" class="w-full py-3.5 rounded-xl bg-zinc-950 hover:bg-zinc-800 text-white font-bold text-sm transition cursor-pointer">
+            Sign In to Courier Dashboard
+          </button>
+        </form>
+      </div>
+
+      <!-- Courier Authenticated Dashboard -->
+      <div id="courier-dashboard-box" class="hidden space-y-6">
+        <!-- Profile & Stats Header -->
+        <div class="bg-white rounded-3xl p-6 sm:p-8 border border-zinc-200 shadow-lg grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+          <div class="lg:col-span-5 flex items-center gap-4">
+            <img id="cour-dash-selfie" src="https://placehold.co/120x120/059669/FFFFFF?text=Rider" alt="Courier Selfie" class="w-20 h-20 rounded-2xl object-cover border-2 border-emerald-500 shrink-0" />
+            <div>
+              <span id="cour-dash-status-badge" class="inline-block px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold uppercase">Active Rider</span>
+              <h2 id="cour-dash-name" class="text-xl font-black text-zinc-950 mt-1">-</h2>
+              <p id="cour-dash-wa" class="text-xs text-zinc-500 font-medium">-</p>
+              <p id="cour-dash-email" class="text-xs text-zinc-400">-</p>
+            </div>
+          </div>
+
+          <div class="lg:col-span-4 grid grid-cols-2 gap-3">
+            <div class="bg-zinc-50 p-4 rounded-2xl border border-zinc-200">
+              <p class="text-xs text-zinc-500 uppercase font-bold">Total Earnings</p>
+              <p id="cour-dash-earnings" class="text-2xl font-black text-emerald-600 mt-1">R 0.00</p>
+            </div>
+            <div class="bg-zinc-50 p-4 rounded-2xl border border-zinc-200">
+              <p class="text-xs text-zinc-500 uppercase font-bold">Completed Trips</p>
+              <p id="cour-dash-trips" class="text-2xl font-black text-zinc-950 mt-1">0</p>
+            </div>
+          </div>
+
+          <div class="lg:col-span-3">
+            <p class="text-[11px] font-bold uppercase text-zinc-400 mb-1.5">Registered Bicycle</p>
+            <img id="cour-dash-bike" src="https://placehold.co/300x160/111827/10B981?text=Bicycle" alt="Courier Bicycle" class="w-full h-24 rounded-xl object-cover border border-zinc-200" />
+          </div>
+        </div>
+
+        <!-- Courier Gold Card + Spend Rewards -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          <div class="lg:col-span-6 bg-gradient-to-br from-amber-500 via-yellow-500 to-amber-600 text-zinc-950 rounded-3xl p-6 sm:p-8 shadow-xl flex flex-col justify-between">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-xs font-black uppercase tracking-widest text-amber-950">Shop MODISHA Rider</p>
+                <h3 class="text-xl font-black">COURIER GOLD CARD</h3>
+              </div>
+              <span class="px-3 py-1 rounded-full bg-zinc-950 text-amber-400 text-xs font-bold">GOLD TIER</span>
+            </div>
+            <div class="my-6">
+              <p class="text-xs font-bold uppercase text-amber-950/80">Gold Card Rewards Balance</p>
+              <p id="cour-dash-gold" class="text-4xl sm:text-5xl font-black text-zinc-950 mt-1">R 0.00</p>
+              <p class="text-xs font-semibold text-amber-950 mt-2">Allocated by Admin for fulfilled orders &amp; trips &bull; Spendable from R10.00</p>
+            </div>
+            <div class="pt-4 border-t border-amber-700/30 flex items-center justify-between text-xs font-bold">
+              <span id="cour-gold-holder">-</span>
+              <span>MIN SPEND: R10.00</span>
+            </div>
+          </div>
+
+          <!-- Spend Gold Card Rewards Box -->
+          <div class="lg:col-span-6 bg-white rounded-3xl p-6 sm:p-8 border border-zinc-200 shadow-lg flex flex-col justify-between">
+            <div>
+              <span class="text-amber-600 font-bold text-xs uppercase tracking-wider">Rider Perks</span>
+              <h3 class="text-xl font-black text-zinc-950 mt-1">Spend Gold Card Rewards</h3>
+              <p class="text-zinc-500 text-sm mt-1">
+                Couriers can redeem their Gold Card rewards on Shop MODISHA essentials once their balance is <strong>R10.00 or more</strong>.
+              </p>
+              <form onsubmit="handleCourierSpendGold(event)" class="mt-5 space-y-4">
+                <div>
+                  <label class="block text-xs font-bold uppercase text-zinc-700 mb-1">Amount to Spend (R) *</label>
+                  <input type="number" id="cour-spend-amount" min="10" step="0.01" required placeholder="Minimum R10.00" class="w-full px-4 py-2.5 rounded-xl border border-zinc-300 text-sm outline-none focus:border-emerald-600" />
+                </div>
+                <div>
+                  <label class="block text-xs font-bold uppercase text-zinc-700 mb-1">Item / Order Redemption Note *</label>
+                  <input type="text" id="cour-spend-note" required placeholder="e.g. Airtime / Lunch combo" class="w-full px-4 py-2.5 rounded-xl border border-zinc-300 text-sm outline-none focus:border-emerald-600" />
+                </div>
+                <button type="submit" class="w-full py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm transition cursor-pointer">
+                  Redeem Gold Card Rewards
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- Admin Notifications & Payout Transactions -->
+        <div class="bg-white rounded-3xl p-6 sm:p-8 border border-zinc-200 shadow-lg">
+          <h3 class="text-lg font-black text-zinc-950 mb-4">Admin Transaction &amp; Payout Notifications</h3>
+          <div id="cour-notifications-list" class="space-y-3">
+            <!-- Populated dynamically -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- ADMIN PORTAL VIEW (HIDDEN PASSWORD GATE + FULL ADMIN DASHBOARD)       -->
+  <!-- ===================================================================== -->
+  <section id="view-admin" class="hidden min-h-[85vh] bg-zinc-100 py-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="mb-6 flex items-center justify-between">
+        <button onclick="switchView('storefront')" class="inline-flex items-center gap-2 text-sm font-semibold text-zinc-600 hover:text-zinc-950 cursor-pointer">
+          &larr; Return to Storefront
+        </button>
+        <button id="admin-logout-btn" onclick="logoutAdmin()" class="hidden px-4 py-2 rounded-xl bg-red-600 hover:bg-red-500 text-white text-xs font-bold transition cursor-pointer">
+          Logout Admin
+        </button>
+      </div>
+
+      <!-- Admin Login Form (Password stored in database, NEVER shown in UI text) -->
+      <div id="admin-login-box" class="max-w-md mx-auto bg-zinc-950 text-white rounded-3xl shadow-2xl border border-zinc-800 p-8">
+        <div class="w-12 h-12 rounded-2xl bg-emerald-600 text-white flex items-center justify-center mb-4">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        </div>
+        <h2 class="text-2xl font-black">Authorized Management Access</h2>
+        <p class="text-zinc-400 text-sm mt-1 mb-6">Enter your administrative security credential to manage Shop MODISHA.</p>
+        <form onsubmit="handleAdminLogin(event)" class="space-y-4">
+          <div>
+            <label for="admin-password-input" class="block text-xs font-bold uppercase text-zinc-400 mb-1">Admin Security Password</label>
+            <input type="password" id="admin-password-input" required placeholder="••••••••••••" class="w-full px-4 py-3 rounded-xl bg-zinc-900 border border-zinc-700 text-white text-sm outline-none focus:border-emerald-500" />
+          </div>
+          <button type="submit" class="w-full py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm transition cursor-pointer">
+            Unlock Admin Dashboard
+          </button>
+        </form>
+      </div>
+
+      <!-- Admin Authenticated Dashboard -->
+      <div id="admin-dashboard-box" class="hidden space-y-6">
+        <!-- Admin Top Banner & Tabs -->
+        <div class="bg-zinc-950 text-white rounded-3xl p-6 shadow-xl flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+          <div>
+            <span class="text-emerald-400 text-xs font-bold uppercase tracking-wider">Control Center</span>
+            <h1 class="text-2xl sm:text-3xl font-black">Shop MODISHA Admin Dashboard</h1>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <button onclick="switchAdminTab('customers')" id="adm-tab-customers" class="px-4 py-2.5 rounded-xl bg-emerald-600 text-white text-xs sm:text-sm font-bold transition cursor-pointer">Customers &amp; Black Cards</button>
+            <button onclick="switchAdminTab('couriers')" id="adm-tab-couriers" class="px-4 py-2.5 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-300 text-xs sm:text-sm font-bold transition cursor-pointer">Bicycle Couriers</button>
+            <button onclick="switchAdminTab('banner')" id="adm-tab-banner" class="px-4 py-2.5 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-300 text-xs sm:text-sm font-bold transition cursor-pointer">Promo Banner &amp; Orders</button>
+            <button onclick="switchAdminTab('supabase')" id="adm-tab-supabase" class="px-4 py-2.5 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-emerald-400 border border-emerald-500/30 text-xs sm:text-sm font-bold transition cursor-pointer">Database &amp; Supabase</button>
+          </div>
+        </div>
+
+        <!-- TAB 1: CUSTOMERS MANAGEMENT -->
+        <div id="admin-panel-customers" class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          <!-- Register New Customer Form -->
+          <div class="lg:col-span-4 bg-white rounded-3xl p-6 border border-zinc-200 shadow-md self-start">
+            <h2 class="text-lg font-black text-zinc-950 mb-1">Register New Customer</h2>
+            <p class="text-xs text-zinc-500 mb-4">Create a Black Card account &amp; post initial dashboard welcome message.</p>
+            <form onsubmit="handleAdminRegisterCustomer(event)" class="space-y-3.5">
+              <div>
+                <label class="block text-xs font-bold uppercase text-zinc-700 mb-1">Customer Name *</label>
+                <input type="text" id="reg-cust-name" required placeholder="e.g. Thabo Mokoena" class="w-full px-3.5 py-2.5 rounded-xl border border-zinc-300 text-sm outline-none focus:border-emerald-600" />
+              </div>
+              <div>
+                <label class="block text-xs font-bold uppercase text-zinc-700 mb-1">Custom Black Card ID *</label>
+                <input type="text" id="reg-cust-cardid" required placeholder="e.g. MOD-BLK-003" class="w-full px-3.5 py-2.5 rounded-xl border border-zinc-300 font-mono uppercase text-sm outline-none focus:border-emerald-600" />
+              </div>
+              <div class="grid grid-cols-2 gap-3">
+                <div>
+                  <label class="block text-xs font-bold uppercase text-zinc-700 mb-1">Customer PIN *</label>
+                  <input type="text" id="reg-cust-pin" required placeholder="e.g. 1234" class="w-full px-3.5 py-2.5 rounded-xl border border-zinc-300 text-sm outline-none focus:border-emerald-600" />
+                </div>
+                <div>
+                  <label class="block text-xs font-bold uppercase text-zinc-700 mb-1">Initial Rewards (R) *</label>
+                  <input type="number" id="reg-cust-rewards" min="0" step="0.01" value="0" required class="w-full px-3.5 py-2.5 rounded-xl border border-zinc-300 text-sm outline-none focus:border-emerald-600" />
+                </div>
+              </div>
+              <div>
+                <label class="block text-xs font-bold uppercase text-zinc-700 mb-1">Customer WhatsApp Number *</label>
+                <input type="tel" id="reg-cust-wa" required placeholder="e.g. 0821234567" class="w-full px-3.5 py-2.5 rounded-xl border border-zinc-300 text-sm outline-none focus:border-emerald-600" />
+              </div>
+              <div>
+                <label class="block text-xs font-bold uppercase text-zinc-700 mb-1">Initial Welcome Message *</label>
+                <textarea id="reg-cust-welcome" rows="2" required placeholder="Welcome to Shop MODISHA! Enjoy your Black Card rewards." class="w-full px-3.5 py-2.5 rounded-xl border border-zinc-300 text-sm outline-none focus:border-emerald-600"></textarea>
+              </div>
+              <button type="submit" class="w-full py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm transition cursor-pointer">
+                + Register Customer Account
+              </button>
+            </form>
+          </div>
+
+          <!-- Customer Directory (Search by Black Card ID & Sorted Ascending) -->
+          <div class="lg:col-span-8 bg-white rounded-3xl p-6 border border-zinc-200 shadow-md">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5">
+              <div>
+                <h2 class="text-lg font-black text-zinc-950">Registered Customers (Ascending by Black Card ID)</h2>
+                <p class="text-xs text-zinc-500">Search by Black Card ID, modify balances, post dashboard messages, or remove accounts.</p>
+              </div>
+              <div class="relative w-full sm:w-64">
+                <input type="text" id="admin-cust-search" oninput="renderAdminCustomers()" placeholder="Search Black Card ID..." class="w-full pl-9 pr-3.5 py-2 rounded-xl border border-zinc-300 text-sm outline-none focus:border-emerald-600" />
+                <svg class="w-4 h-4 text-zinc-400 absolute left-3 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              </div>
+            </div>
+
+            <div id="admin-customers-list" class="space-y-4">
+              <!-- Populated dynamically -->
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 2: BICYCLE COURIERS MANAGEMENT -->
+        <div id="admin-panel-couriers" class="hidden grid grid-cols-1 lg:grid-cols-12 gap-6">
+          <!-- Register Bicycle Courier Form -->
+          <div class="lg:col-span-4 bg-white rounded-3xl p-6 border border-zinc-200 shadow-md self-start">
+            <h2 class="text-lg font-black text-zinc-950 mb-1">Register Bicycle Courier</h2>
+            <p class="text-xs text-zinc-500 mb-4">Onboard a delivery rider with bicycle &amp; selfie photos.</p>
+            <form onsubmit="handleAdminRegisterCourier(event)" class="space-y-3.5">
+              <div>
+                <label class="block text-xs font-bold uppercase text-zinc-700 mb-1">Delivery Guy Name *</label>
+                <input type="text" id="reg-cour-name" required placeholder="e.g. Sipho Ndlovu" class="w-full px-3.5 py-2.5 rounded-xl border border-zinc-300 text-sm outline-none focus:border-emerald-600" />
+              </div>
+              <div class="grid grid-cols-2 gap-3">
+                <div>
+                  <label class="block text-xs font-bold uppercase text-zinc-700 mb-1">WhatsApp Number *</label>
+                  <input type="tel" id="reg-cour-wa" required placeholder="0821112222" class="w-full px-3.5 py-2.5 rounded-xl border border-zinc-300 text-sm outline-none focus:border-emerald-600" />
+                </div>
+                <div>
+                  <label class="block text-xs font-bold uppercase text-zinc-700 mb-1">Courier PIN *</label>
+                  <input type="text" id="reg-cour-pin" required placeholder="4321" class="w-full px-3.5 py-2.5 rounded-xl border border-zinc-300 text-sm outline-none focus:border-emerald-600" />
+                </div>
+              </div>
+              <div>
+                <label class="block text-xs font-bold uppercase text-zinc-700 mb-1">Email Address *</label>
+                <input type="email" id="reg-cour-email" required placeholder="sipho@courier.co.za" class="w-full px-3.5 py-2.5 rounded-xl border border-zinc-300 text-sm outline-none focus:border-emerald-600" />
+              </div>
+              <div class="grid grid-cols-2 gap-3">
+                <div>
+                  <label class="block text-xs font-bold uppercase text-zinc-700 mb-1">Total Earnings (R)</label>
+                  <input type="number" id="reg-cour-earnings" min="0" step="0.01" value="0" class="w-full px-3.5 py-2.5 rounded-xl border border-zinc-300 text-sm outline-none focus:border-emerald-600" />
+                </div>
+                <div>
+                  <label class="block text-xs font-bold uppercase text-zinc-700 mb-1">Gold Rewards (R)</label>
+                  <input type="number" id="reg-cour-gold" min="0" step="0.01" value="0" class="w-full px-3.5 py-2.5 rounded-xl border border-zinc-300 text-sm outline-none focus:border-emerald-600" />
+                </div>
+              </div>
+              <div>
+                <label class="block text-xs font-bold uppercase text-zinc-700 mb-1">Upload Bicycle Picture *</label>
+                <input type="file" id="reg-cour-bike-file" accept="image/*" required class="w-full text-xs text-zinc-600 file:mr-3 file:py-2 file:px-3 file:rounded-lg file:border-0 file:bg-emerald-50 file:text-emerald-700 file:font-semibold" />
+              </div>
+              <div>
+                <label class="block text-xs font-bold uppercase text-zinc-700 mb-1">Upload Selfie Picture *</label>
+                <input type="file" id="reg-cour-selfie-file" accept="image/*" required class="w-full text-xs text-zinc-600 file:mr-3 file:py-2 file:px-3 file:rounded-lg file:border-0 file:bg-zinc-100 file:text-zinc-800 file:font-semibold" />
+              </div>
+              <button type="submit" class="w-full py-3 rounded-xl bg-zinc-950 hover:bg-zinc-800 text-white font-bold text-sm transition cursor-pointer">
+                + Register Bicycle Courier
+              </button>
+            </form>
+          </div>
+
+          <!-- Courier Fleet Directory -->
+          <div class="lg:col-span-8 bg-white rounded-3xl p-6 border border-zinc-200 shadow-md">
+            <h2 class="text-lg font-black text-zinc-950 mb-1">Registered Bicycle Couriers</h2>
+            <p class="text-xs text-zinc-500 mb-5">Update trips, earnings, Gold Card rewards, bicycle photo, post payment messages, suspend, or delete riders.</p>
+            <div id="admin-couriers-list" class="space-y-4">
+              <!-- Populated dynamically -->
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 3: PROMO BANNER (1500x500) & RECENT ORDERS -->
+        <div id="admin-panel-banner" class="hidden grid grid-cols-1 lg:grid-cols-12 gap-6">
+          <div class="lg:col-span-5 bg-white rounded-3xl p-6 border border-zinc-200 shadow-md self-start space-y-4">
+            <h2 class="text-lg font-black text-zinc-950">Update Storefront Promo Banner (1500 &times; 500)</h2>
+            <p class="text-xs text-zinc-500">Upload a 1500px by 500px promotional banner image or enter an image URL to advertise products/sales under the Hero section.</p>
+            <form onsubmit="handleAdminUpdateBanner(event)" class="space-y-3.5">
+              <div>
+                <label class="block text-xs font-bold uppercase text-zinc-700 mb-1">Banner Image URL (Optional)</label>
+                <input type="url" id="admin-banner-url" placeholder="https://example.com/1500x500-sale.jpg" class="w-full px-3.5 py-2.5 rounded-xl border border-zinc-300 text-sm outline-none focus:border-emerald-600" />
+              </div>
+              <div>
+                <label class="block text-xs font-bold uppercase text-zinc-700 mb-1">Or Upload Banner File (1500x500)</label>
+                <input type="file" id="admin-banner-file" accept="image/*" class="w-full text-xs text-zinc-600 file:mr-3 file:py-2 file:px-3 file:rounded-lg file:border-0 file:bg-emerald-50 file:text-emerald-700 file:font-semibold" />
+              </div>
+              <div>
+                <label class="block text-xs font-bold uppercase text-zinc-700 mb-1">Fallback Promo Headline</label>
+                <input type="text" id="admin-banner-headline" placeholder="Fresh Bread, Milk & 2L Cold Drink Bundle + 10% OFF" class="w-full px-3.5 py-2.5 rounded-xl border border-zinc-300 text-sm outline-none focus:border-emerald-600" />
+              </div>
+              <div class="flex gap-2">
+                <button type="submit" class="flex-1 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm transition cursor-pointer">Save Banner</button>
+                <button type="button" onclick="resetPromoBanner()" class="px-4 py-3 rounded-xl bg-zinc-200 hover:bg-zinc-300 text-zinc-800 font-bold text-xs transition cursor-pointer">Reset Default</button>
+              </div>
+            </form>
+          </div>
+
+          <div class="lg:col-span-7 bg-white rounded-3xl p-6 border border-zinc-200 shadow-md">
+            <h2 class="text-lg font-black text-zinc-950 mb-1">Recent Customer Orders Log</h2>
+            <p class="text-xs text-zinc-500 mb-4">Orders submitted through the Shop MODISHA checkout.</p>
+            <div id="admin-orders-list" class="space-y-3 max-h-[480px] overflow-y-auto">
+              <!-- Populated dynamically -->
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 4: SUPABASE DATABASE CONFIGURATION (HIDDEN FROM PUBLIC APP) -->
+        <div id="admin-panel-supabase" class="hidden grid grid-cols-1 lg:grid-cols-12 gap-6">
+          <div class="lg:col-span-5 bg-white rounded-3xl p-6 border border-zinc-200 shadow-md space-y-4 self-start">
+            <div class="flex items-center justify-between">
+              <h2 class="text-lg font-black text-zinc-950">Supabase Cloud Connection</h2>
+              <span id="sb-connection-badge" class="px-2.5 py-1 rounded-full bg-amber-100 text-amber-800 text-xs font-bold">Local Cache Mode</span>
+            </div>
+            <p class="text-xs text-zinc-500 leading-relaxed">
+              Connect your Supabase project to sync customers, Black Card rewards, couriers, notifications, and admin settings in real time. Hidden from public visitors.
+            </p>
+            <form onsubmit="saveSupabaseConfig(event)" class="space-y-3.5">
+              <div>
+                <label class="block text-xs font-bold uppercase text-zinc-700 mb-1">Supabase Project URL *</label>
+                <input type="url" id="sb-url-input" required placeholder="https://xyzcompany.supabase.co" class="w-full px-3.5 py-2.5 rounded-xl border border-zinc-300 font-mono text-xs outline-none focus:border-emerald-600" />
+              </div>
+              <div>
+                <label class="block text-xs font-bold uppercase text-zinc-700 mb-1">Supabase Anon Public Key *</label>
+                <input type="password" id="sb-key-input" required placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6..." class="w-full px-3.5 py-2.5 rounded-xl border border-zinc-300 font-mono text-xs outline-none focus:border-emerald-600" />
+              </div>
+              <div class="flex gap-2">
+                <button type="submit" class="flex-1 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm transition cursor-pointer">Connect &amp; Sync Supabase</button>
+                <button type="button" onclick="disconnectSupabase()" class="px-4 py-3 rounded-xl bg-zinc-200 hover:bg-zinc-300 text-zinc-800 font-bold text-xs transition cursor-pointer">Disconnect</button>
+              </div>
+            </form>
+          </div>
+
+          <div class="lg:col-span-7 bg-zinc-950 text-white rounded-3xl p-6 border border-zinc-800 shadow-md space-y-3">
+            <div class="flex items-center justify-between">
+              <h3 class="text-base font-bold text-emerald-400">One-Click Supabase SQL Schema Setup</h3>
+              <button onclick="copySupabaseSQL()" class="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition cursor-pointer">Copy SQL Script</button>
+            </div>
+            <p class="text-xs text-zinc-400">Run this SQL in your Supabase SQL Editor to create all required tables and seed the admin security password.</p>
+            <pre id="supabase-sql-code" class="bg-black/80 border border-zinc-800 rounded-2xl p-4 text-[11px] font-mono text-emerald-300 overflow-x-auto max-h-80 leading-relaxed">-- Shop MODISHA Supabase Schema
+CREATE TABLE IF NOT EXISTS app_settings (
+  key TEXT PRIMARY KEY,
+  value TEXT NOT NULL
+);
+
+INSERT INTO app_settings (key, value)
+VALUES ('admin_password', '#PetalChain_25')
+ON CONFLICT (key) DO NOTHING;
+
+CREATE TABLE IF NOT EXISTS customers (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  name TEXT NOT NULL,
+  black_card_id TEXT UNIQUE NOT NULL,
+  pin TEXT NOT NULL,
+  whatsapp TEXT UNIQUE NOT NULL,
+  rewards NUMERIC(10,2) DEFAULT 0,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS couriers (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  name TEXT NOT NULL,
+  whatsapp TEXT UNIQUE NOT NULL,
+  email TEXT NOT NULL,
+  pin TEXT NOT NULL,
+  bicycle_img TEXT,
+  selfie_img TEXT,
+  total_earnings NUMERIC(10,2) DEFAULT 0,
+  trips INTEGER DEFAULT 0,
+  gold_rewards NUMERIC(10,2) DEFAULT 0,
+  suspended BOOLEAN DEFAULT FALSE,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS notifications (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  recipient_type TEXT NOT NULL, -- 'customer' or 'courier'
+  recipient_id TEXT NOT NULL,   -- black_card_id or courier whatsapp
+  message TEXT NOT NULL,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS orders (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  customer_name TEXT NOT NULL,
+  black_card_id TEXT NOT NULL,
+  whatsapp TEXT NOT NULL,
+  items TEXT NOT NULL,
+  cash_amount NUMERIC(10,2) DEFAULT 0,
+  payment_method TEXT NOT NULL,
+  rewards_spent NUMERIC(10,2) DEFAULT 0,
+  discount_code TEXT,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- ADMIN EDIT / MESSAGE MODAL (DYNAMIC DIALOG)                           -->
+  <!-- ===================================================================== -->
+  <div id="admin-action-modal" class="hidden fixed inset-0 z-[90] bg-black/75 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-zinc-200 max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between mb-4">
+        <h3 id="admin-modal-title" class="text-xl font-black text-zinc-950">Manage Account</h3>
+        <button onclick="closeAdminModal()" class="p-2 rounded-xl hover:bg-zinc-100 text-zinc-500 cursor-pointer">&times;</button>
+      </div>
+      <div id="admin-modal-body"></div>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- 8. FOOTER & DETAILED LEGAL MODALS (PRIVACY, TERMS OF USE, T&Cs)       -->
+  <!-- ===================================================================== -->
+  <footer class="bg-zinc-950 text-zinc-400 border-t border-zinc-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 pb-8 border-b border-zinc-800">
+        <div>
+          <div class="flex items-center gap-2.5 text-white mb-3">
+            <div class="w-8 h-8 rounded-lg bg-emerald-600 flex items-center justify-center">
+              <svg class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+            </div>
+            <span class="font-extrabold text-lg">Shop <span class="text-emerald-400">MODISHA</span></span>
+          </div>
+          <p class="text-xs leading-relaxed text-zinc-400">
+            Your trusted South African community storefront for household essentials, groceries, local services, and Black Card &amp; Gold Card loyalty rewards.
+          </p>
+        </div>
+
+        <div>
+          <h4 class="text-white font-bold text-sm uppercase tracking-wider mb-3">Quick Navigation</h4>
+          <ul class="space-y-2 text-xs">
+            <li><a href="#catalog" onclick="switchView('storefront')" class="hover:text-emerald-400 transition">Products &amp; Community Services</a></li>
+            <li><a href="#order-section" onclick="switchView('storefront')" class="hover:text-emerald-400 transition">Place WhatsApp Order</a></li>
+            <li><button onclick="openCustomerPortal()" class="hover:text-emerald-400 transition cursor-pointer">Customer Black Card Portal</button></li>
+            <li><button onclick="openCourierPortal()" class="hover:text-emerald-400 transition cursor-pointer">Bicycle Courier Gold Card Portal</button></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="text-white font-bold text-sm uppercase tracking-wider mb-3">Legal &amp; Compliance</h4>
+          <ul class="space-y-2 text-xs">
+            <li><button onclick="openLegalModal('privacy')" class="hover:text-emerald-400 transition cursor-pointer">Privacy Policy (POPIA Compliant)</button></li>
+            <li><button onclick="openLegalModal('termsOfUse')" class="hover:text-emerald-400 transition cursor-pointer">Terms of Use &amp; Loyalty Rules</button></li>
+            <li><button onclick="openLegalModal('termsConditions')" class="hover:text-emerald-400 transition cursor-pointer">Terms and Conditions of Sale &amp; Delivery</button></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-zinc-500">
+        <p>&copy; <span id="current-year">2026</span> Shop MODISHA. All rights reserved. South Africa.</p>
+        <div class="flex items-center gap-4">
+          <button onclick="openLegalModal('privacy')" class="hover:text-zinc-300 cursor-pointer">Privacy Policy</button>
+          <span>&bull;</span>
+          <button onclick="openLegalModal('termsOfUse')" class="hover:text-zinc-300 cursor-pointer">Terms of Use</button>
+          <span>&bull;</span>
+          <button onclick="openLegalModal('termsConditions')" class="hover:text-zinc-300 cursor-pointer">Terms &amp; Conditions</button>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- LEGAL MODAL OVERLAY -->
+  <div id="legal-modal" class="hidden fixed inset-0 z-[95] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-3xl w-full max-h-[88vh] flex flex-col shadow-2xl border border-zinc-200 overflow-hidden">
+      <div class="bg-zinc-950 text-white px-6 py-5 flex items-center justify-between">
+        <div>
+          <span class="text-emerald-400 text-[11px] font-bold uppercase tracking-widest">Shop MODISHA Legal Document</span>
+          <h3 id="legal-modal-title" class="text-xl font-black mt-0.5">Privacy Policy</h3>
+        </div>
+        <button onclick="closeLegalModal()" class="w-9 h-9 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-white flex items-center justify-center text-lg cursor-pointer">&times;</button>
+      </div>
+      <div id="legal-modal-content" class="p-6 sm:p-8 overflow-y-auto space-y-4 text-sm text-zinc-700 leading-relaxed">
+        <!-- Populated dynamically -->
+      </div>
+      <div class="px-6 py-4 bg-zinc-50 border-t border-zinc-200 flex justify-end">
+        <button onclick="closeLegalModal()" class="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs transition cursor-pointer">I Understand &amp; Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- JAVASCRIPT APPLICATION LOGIC & SUPABASE INTEGRATION                   -->
+  <!-- ===================================================================== -->
+  <script>
+    // =========================================================================
+    // 1. PWA MANIFEST & SERVICE WORKER INITIALIZATION (SELF-CONTAINED)
+    // =========================================================================
+    (function initPWA() {
+      const iconSvg = `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='112' fill='%23059669'/><path fill='none' stroke='%23FFFFFF' stroke-width='36' stroke-linecap='round' stroke-linejoin='round' d='M112 144h44l36 184h184l32-128H172'/><circle cx='212' cy='384' r='26' fill='%23FFFFFF'/><circle cx='356' cy='384' r='26' fill='%23FFFFFF'/></svg>`;
+      const iconDataUri = `data:image/svg+xml;utf8,${encodeURIComponent(iconSvg)}`;
+
+      const manifest = {
+        name: "Shop MODISHA",
+        short_name: "MODISHA",
+        description: "Shop MODISHA — Local essentials, services, and Black Card & Gold Card loyalty rewards.",
+        start_url: "./",
+        display: "standalone",
+        background_color: "#09090B",
+        theme_color: "#059669",
+        icons: [
+          { src: iconDataUri, sizes: "192x192", type: "image/svg+xml", purpose: "any maskable" },
+          { src: iconDataUri, sizes: "512x512", type: "image/svg+xml", purpose: "any maskable" }
+        ]
+      };
+
+      const manifestBlob = new Blob([JSON.stringify(manifest)], { type: 'application/manifest+json' });
+      const manifestUrl = URL.createObjectURL(manifestBlob);
+      const link = document.createElement('link');
+      link.rel = 'manifest';
+      link.href = manifestUrl;
+      document.head.appendChild(link);
+
+      // Dynamic Service Worker via Blob URL
+      if ('serviceWorker' in navigator) {
+        const swCode = `
+          const CACHE_NAME = 'shop-modisha-pwa-v1';
+          self.addEventListener('install', (event) => {
+            self.skipWaiting();
+          });
+          self.addEventListener('activate', (event) => {
+            event.waitUntil(clients.claim());
+          });
+          self.addEventListener('fetch', (event) => {
+            event.respondWith(
+              fetch(event.request).catch(() => caches.match(event.request))
+            );
+          });
+        `;
+        try {
+          const swBlob = new Blob([swCode], { type: 'application/javascript' });
+          const swUrl = URL.createObjectURL(swBlob);
+          navigator.serviceWorker.register(swUrl).catch(() => {});
+        } catch (e) {}
+      }
+
+      // Install Prompt Listener
+      let deferredPrompt = null;
+      window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        document.getElementById('pwa-install-banner').classList.remove('hidden');
+      });
+
+      document.getElementById('pwa-install-btn')?.addEventListener('click', async () => {
+        if (!deferredPrompt) return;
+        deferredPrompt.prompt();
+        await deferredPrompt.userChoice;
+        deferredPrompt = null;
+        document.getElementById('pwa-install-banner').classList.add('hidden');
+      });
+
+      document.getElementById('pwa-dismiss-btn')?.addEventListener('click', () => {
+        document.getElementById('pwa-install-banner').classList.add('hidden');
+      });
+    })();
+
+    // =========================================================================
+    // 2. DATA STATE, SEEDING & SUPABASE CLIENT ABSTRACTION
+    // =========================================================================
+    const SHOP_WHATSAPP_NUMBER = "27824598656"; // 0824598656 in international format
+    const STORAGE_KEYS = {
+      CUSTOMERS: 'modisha_customers_v1',
+      COURIERS: 'modisha_couriers_v1',
+      NOTIFICATIONS: 'modisha_notifications_v1',
+      ORDERS: 'modisha_orders_v1',
+      SETTINGS: 'modisha_settings_v1',
+      SESSION_CUSTOMER: 'modisha_session_customer_v1',
+      SESSION_COURIER: 'modisha_session_courier_v1',
+      SESSION_ADMIN: 'modisha_session_admin_v1',
+      SB_CONFIG: 'modisha_sb_config_v1'
+    };
+
+    let supabaseClient = null;
+
+    const CATALOG_ITEMS = [
+      { id: 'p1', type: 'product', name: 'Bread (Loaf)', desc: 'Fresh daily white or brown loaf delivered straight to your door.', badge: 'Daily Essential' },
+      { id: 'p2', type: 'product', name: 'Fresh Milk (2L)', desc: 'Full cream or low-fat fresh milk 2-litre bottle.', badge: 'Cold Chain' },
+      { id: 'p3', type: 'product', name: 'Airtime & Data Voucher', desc: 'Instant prepaid airtime & data bundles for all SA networks.', badge: 'Instant' },
+      { id: 'p4', type: 'product', name: 'Cold Drink (2L)', desc: 'Chilled assorted fizzy cold drinks for the family.', badge: 'Refreshment' },
+      { id: 's1', type: 'service', name: 'Cleaning of Yard', desc: 'Thorough garden & yard clean-up, sweeping, and refuse clearing.', badge: 'Home Service' },
+      { id: 's2', type: 'service', name: 'Fire Wood Supply', desc: 'Dry, ready-to-burn hardwood bundles delivered to your gate.', badge: 'Bulk / Bundle' },
+      { id: 's3', type: 'service', name: 'Water Supply', desc: 'Clean, reliable household water container refills & delivery.', badge: 'Essential Supply' },
+      { id: 's4', type: 'service', name: 'DJ for a Function', desc: 'Professional sound & DJ booking for parties, weddings & events.', badge: 'Event Booking' },
+      { id: 's5', type: 'service', name: 'Transportation', desc: 'Safe, affordable local trips, errands, and goods transport.', badge: 'Local Ride' }
+    ];
+
+    function getLocal(key, fallback) {
+      try {
+        const raw = localStorage.getItem(key);
+        return raw ? JSON.parse(raw) : fallback;
+      } catch (e) {
+        return fallback;
+      }
+    }
+
+    function setLocal(key, val) {
+      try {
+        localStorage.setItem(key, JSON.stringify(val));
+      } catch (e) {}
+    }
+
+    // Seed initial database records if empty (including hidden admin credential)
+    function seedInitialData() {
+      const settings = getLocal(STORAGE_KEYS.SETTINGS, null);
+      if (!settings) {
+        setLocal(STORAGE_KEYS.SETTINGS, {
+          admin_password: '#PetalChain_25',
+          banner_url: '',
+          banner_headline: 'Fresh Bread, Milk & 2L Cold Drink Bundle + 10% OFF'
+        });
+      }
+
+      const customers = getLocal(STORAGE_KEYS.CUSTOMERS, null);
+      if (!customers) {
+        setLocal(STORAGE_KEYS.CUSTOMERS, [
+          {
+            id: 'cust-1',
+            name: 'Lerato Khumalo',
+            black_card_id: 'MOD-BLK-001',
+            pin: '1234',
+            whatsapp: '0820000001',
+            rewards: 55.00
+          },
+          {
+            id: 'cust-2',
+            name: 'Kabelo Molefe',
+            black_card_id: 'MOD-BLK-002',
+            pin: '1234',
+            whatsapp: '0820000002',
+            rewards: 15.00
+          }
+        ]);
+      }
+
+      const couriers = getLocal(STORAGE_KEYS.COURIERS, null);
+      if (!couriers) {
+        setLocal(STORAGE_KEYS.COURIERS, [
+          {
+            id: 'cour-1',
+            name: 'Sipho Ndlovu',
+            whatsapp: '0821112222',
+            email: 'sipho.rider@shopmodisha.co.za',
+            pin: '1234',
+            bicycle_img: 'https://placehold.co/400x240/111827/10B981?text=MODISHA+Speed+Bike',
+            selfie_img: 'https://placehold.co/160x160/059669/FFFFFF?text=SN',
+            total_earnings: 450.00,
+            trips: 18,
+            gold_rewards: 20.00,
+            suspended: false
+          }
+        ]);
+      }
+
+      const notifications = getLocal(STORAGE_KEYS.NOTIFICATIONS, null);
+      if (!notifications) {
+        setLocal(STORAGE_KEYS.NOTIFICATIONS, [
+          {
+            id: 'not-1',
+            recipient_type: 'customer',
+            recipient_id: 'MOD-BLK-001',
+            message: 'Welcome to Shop MODISHA! Your Black Card is active with R55.00 rewards ready to spend.',
+            created_at: new Date().toISOString()
+          },
+          {
+            id: 'not-2',
+            recipient_type: 'customer',
+            recipient_id: 'MOD-BLK-002',
+            message: 'Welcome to Shop MODISHA! Earn R1 on every order and share rewards from R10.',
+            created_at: new Date().toISOString()
+          },
+          {
+            id: 'not-3',
+            recipient_type: 'courier',
+            recipient_id: '0821112222',
+            message: 'Paid R450.00 for 18 completed bicycle deliveries. Keep riding safely!',
+            created_at: new Date().toISOString()
+          }
+        ]);
+      }
+    }
+
+    // Initialize Supabase if Admin has configured URL & Key
+    async function initSupabaseFromStorage() {
+      const cfg = getLocal(STORAGE_KEYS.SB_CONFIG, null);
+      if (cfg && cfg.url && cfg.key && window.supabase) {
+        try {
+          supabaseClient = window.supabase.createClient(cfg.url, cfg.key);
+          const badge = document.getElementById('sb-connection-badge');
+          if (badge) {
+            badge.textContent = 'Supabase Connected';
+            badge.className = 'px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold';
+          }
+          const urlInp = document.getElementById('sb-url-input');
+          const keyInp = document.getElementById('sb-key-input');
+          if (urlInp) urlInp.value = cfg.url;
+          if (keyInp) keyInp.value = cfg.key;
+
+          await syncFromSupabase();
+        } catch (err) {
+          console.error('Supabase init error:', err);
+        }
+      }
+    }
+
+    async function syncFromSupabase() {
+      if (!supabaseClient) return;
+      try {
+        const [custRes, courRes, notRes, ordRes, setRes] = await Promise.all([
+          supabaseClient.from('customers').select('*'),
+          supabaseClient.from('couriers').select('*'),
+          supabaseClient.from('notifications').select('*').order('created_at', { ascending: false }),
+          supabaseClient.from('orders').select('*').order('created_at', { ascending: false }),
+          supabaseClient.from('app_settings').select('*')
+        ]);
+
+        if (custRes.data && custRes.data.length > 0) setLocal(STORAGE_KEYS.CUSTOMERS, custRes.data);
+        if (courRes.data && courRes.data.length > 0) setLocal(STORAGE_KEYS.COURIERS, courRes.data);
+        if (notRes.data && notRes.data.length > 0) setLocal(STORAGE_KEYS.NOTIFICATIONS, notRes.data);
+        if (ordRes.data) setLocal(STORAGE_KEYS.ORDERS, ordRes.data);
+        if (setRes.data && setRes.data.length > 0) {
+          const settingsObj = getLocal(STORAGE_KEYS.SETTINGS, {});
+          setRes.data.forEach(row => { settingsObj[row.key] = row.value; });
+          setLocal(STORAGE_KEYS.SETTINGS, settingsObj);
+        }
+      } catch (e) {
+        console.warn('Supabase sync fallback to local cache:', e);
+      }
+    }
+
+    // =========================================================================
+    // 3. UI HELPERS, TOASTS & VIEW NAVIGATION
+    // =========================================================================
+    function showToast(message, type = 'success') {
+      const container = document.getElementById('toast-container');
+      const el = document.createElement('div');
+      const colors = {
+        success: 'bg-zinc-950 text-white border-emerald-500',
+        error: 'bg-red-950 text-white border-red-500',
+        info: 'bg-zinc-900 text-white border-zinc-600'
+      };
+      el.className = `pointer-events-auto border-l-4 ${colors[type] || colors.success} px-4 py-3 rounded-xl shadow-2xl text-xs sm:text-sm font-medium flex items-center justify-between gap-3 transition-all duration-300`;
+      el.innerHTML = `<span>${message}</span><button onclick="this.parentElement.remove()" class="text-zinc-400 hover:text-white font-bold cursor-pointer">&times;</button>`;
+      container.appendChild(el);
+      setTimeout(() => el.remove(), 4500);
+    }
+
+    function switchView(viewName) {
+      ['storefront', 'customer', 'courier', 'admin'].forEach(v => {
+        const el = document.getElementById(`view-${v}`);
+        if (el) el.classList.add('hidden');
+      });
+      const target = document.getElementById(`view-${viewName}`);
+      if (target) target.classList.remove('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function normalizePhone(phone) {
+      return String(phone || '').replace(/\s+/g, '').trim();
+    }
+
+    function fileToBase64(file) {
+      return new Promise((resolve, reject) => {
+        if (!file) return resolve('');
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    }
+
+    // =========================================================================
+    // 4. CATALOG RENDERING & ORDER FORM LOGIC
+    // =========================================================================
+    function renderCatalog(filter = 'all') {
+      const grid = document.getElementById('catalog-grid');
+      const filtered = filter === 'all' ? CATALOG_ITEMS : CATALOG_ITEMS.filter(i => i.type === filter);
+
+      grid.innerHTML = filtered.map(item => `
+        <div class="group bg-white border border-zinc-200 hover:border-emerald-500 rounded-2xl p-5 shadow-sm hover:shadow-xl transition flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="px-2.5 py-1 rounded-full text-[11px] font-bold uppercase ${item.type === 'service' ? 'bg-zinc-950 text-emerald-400' : 'bg-emerald-50 text-emerald-700'}">
+                ${item.badge}
+              </span>
+              <span class="text-xs text-zinc-400 capitalize">${item.type}</span>
+            </div>
+            <h3 class="text-lg font-extrabold text-zinc-950 group-hover:text-emerald-600 transition">${item.name}</h3>
+            <p class="text-xs text-zinc-500 mt-1.5 leading-relaxed">${item.desc}</p>
+          </div>
+          <button type="button" onclick="quickAddFromCatalog('${item.name.replace(/'/g, "\\'")}')" class="mt-5 w-full py-2.5 px-4 rounded-xl bg-zinc-100 hover:bg-emerald-600 text-zinc-900 hover:text-white font-bold text-xs transition flex items-center justify-center gap-1.5 cursor-pointer">
+            <span>+ Add to Order List</span>
+          </button>
+        </div>
+      `).join('');
+    }
+
+    function filterCatalog(filter) {
+      ['all', 'product', 'service'].forEach(t => {
+        const btn = document.getElementById(`cat-tab-${t}`);
+        if (t === filter) {
+          btn.className = 'px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold bg-zinc-950 text-white transition cursor-pointer';
+        } else {
+          btn.className = 'px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold text-zinc-600 hover:text-zinc-950 transition cursor-pointer';
+        }
+      });
+      renderCatalog(filter);
+    }
+
+    function quickAddFromCatalog(itemName) {
+      const textarea = document.getElementById('order-items');
+      const line = `- 1x ${itemName}`;
+      textarea.value = textarea.value.trim() ? `${textarea.value.trim()}\n${line}` : line;
+      showToast(`Added "${itemName}" to your order list!`);
+      document.getElementById('order-section').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function appendQuickItem() {
+      const sel = document.getElementById('quick-item-select');
+      const qty = parseInt(document.getElementById('quick-item-qty').value, 10) || 1;
+      if (!sel.value) {
+        showToast('Please select a product or service first.', 'error');
+        return;
+      }
+      const textarea = document.getElementById('order-items');
+      const line = `- ${qty}x ${sel.value}`;
+      textarea.value = textarea.value.trim() ? `${textarea.value.trim()}\n${line}` : line;
+      sel.value = '';
+      document.getElementById('quick-item-qty').value = 1;
+      showToast('Item added to your order list.');
+    }
+
+    function refreshOrderFormAuthState() {
+      const loggedWa = getLocal(STORAGE_KEYS.SESSION_CUSTOMER, null);
+      const customers = getLocal(STORAGE_KEYS.CUSTOMERS, []);
+      const customer = customers.find(c => normalizePhone(c.whatsapp) === normalizePhone(loggedWa));
+
+      const gate = document.getElementById('order-login-gate');
+      const badge = document.getElementById('order-auth-badge');
+      const navLabel = document.getElementById('nav-customer-label');
+
+      if (customer) {
+        gate.classList.add('hidden');
+        badge.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-400"></span><span>Signed in: <strong>${customer.name}</strong> (${customer.black_card_id})</span>`;
+        navLabel.textContent = `${customer.name.split(' ')[0]} (R${Number(customer.rewards).toFixed(2)})`;
+
+        // Pre-fill order inputs
+        document.getElementById('order-name').value = customer.name;
+        document.getElementById('order-whatsapp').value = customer.whatsapp;
+        document.getElementById('order-available-rewards').textContent = `Bal: R${Number(customer.rewards).toFixed(2)}`;
+      } else {
+        gate.classList.remove('hidden');
+        badge.innerHTML = `<span class="w-2 h-2 rounded-full bg-amber-400"></span><span>Customer Login Required</span>`;
+        navLabel.textContent = 'Customer Login';
+        document.getElementById('order-available-rewards').textContent = 'Bal: R0.00';
+      }
+    }
+
+    async function handleOrderSubmit(e) {
+      e.preventDefault();
+
+      // Enforce Customer Login to place an order
+      const loggedWa = getLocal(STORAGE_KEYS.SESSION_CUSTOMER, null);
+      const customers = getLocal(STORAGE_KEYS.CUSTOMERS, []);
+      const custIdx = customers.findIndex(c => normalizePhone(c.whatsapp) === normalizePhone(loggedWa));
+
+      if (custIdx === -1) {
+        showToast('Please log in with your Customer WhatsApp Number and PIN to place an order.', 'error');
+        openCustomerPortal();
+        return;
+      }
+
+      const customer = customers[custIdx];
+      const name = document.getElementById('order-name').value.trim();
+      const whatsapp = document.getElementById('order-whatsapp').value.trim();
+      const items = document.getElementById('order-items').value.trim();
+      const cashAmount = parseFloat(document.getElementById('order-cash').value) || 0;
+      const paymentMethod = document.querySelector('input[name="payment-method"]:checked')?.value || 'Cash';
+      const rewardsToSpend = parseFloat(document.getElementById('order-rewards-spend').value) || 0;
+      const discountCode = document.getElementById('order-discount').value.trim().toUpperCase();
+
+      // Validate Black Card Rewards Spend Rules (R50 minimum balance required)
+      if (rewardsToSpend > 0) {
+        if (Number(customer.rewards) < 50) {
+          showToast(`You need a minimum Black Card balance of R50.00 to spend rewards (Current: R${Number(customer.rewards).toFixed(2)}).`, 'error');
+          return;
+        }
+        if (rewardsToSpend < 50) {
+          showToast('Minimum redeemable Black Card reward amount is R50.00.', 'error');
+          return;
+        }
+        if (rewardsToSpend > Number(customer.rewards)) {
+          showToast('You cannot spend more rewards than your available Black Card balance.', 'error');
+          return;
+        }
+      }
+
+      // Update Customer Rewards: Deduct spent rewards + Add R1 earned per order
+      const updatedRewards = Number((Number(customer.rewards) - rewardsToSpend + 1).toFixed(2));
+      customers[custIdx].rewards = updatedRewards;
+      setLocal(STORAGE_KEYS.CUSTOMERS, customers);
+
+      // Save Order Log
+      const newOrder = {
+        id: 'ord-' + Date.now(),
+        customer_name: name,
+        black_card_id: customer.black_card_id,
+        whatsapp,
+        items,
+        cash_amount: cashAmount,
+        payment_method: paymentMethod,
+        rewards_spent: rewardsToSpend,
+        discount_code: discountCode || 'NONE',
+        created_at: new Date().toISOString()
+      };
+      const orders = getLocal(STORAGE_KEYS.ORDERS, []);
+      orders.unshift(newOrder);
+      setLocal(STORAGE_KEYS.ORDERS, orders);
+
+      // Add notification to Customer Dashboard
+      await addNotification(
+        'customer',
+        customer.black_card_id,
+        `Order placed! You earned +R1.00 Black Card reward${rewardsToSpend > 0 ? ` and spent R${rewardsToSpend.toFixed(2)}` : ''}. New balance: R${updatedRewards.toFixed(2)}.`
+      );
+
+      // Sync to Supabase if connected
+      if (supabaseClient) {
+        try {
+          await supabaseClient.from('customers').update({ rewards: updatedRewards }).eq('black_card_id', customer.black_card_id);
+          await supabaseClient.from('orders').insert([{
+            customer_name: newOrder.customer_name,
+            black_card_id: newOrder.black_card_id,
+            whatsapp: newOrder.whatsapp,
+            items: newOrder.items,
+            cash_amount: newOrder.cash_amount,
+            payment_method: newOrder.payment_method,
+            rewards_spent: newOrder.rewards_spent,
+            discount_code: newOrder.discount_code
+          }]);
+        } catch (err) {}
+      }
+
+      refreshOrderFormAuthState();
+
+      // Build Prefilled WhatsApp Message to 0824598656
+      const waMessage = [
+        `*NEW ORDER — SHOP MODISHA*`,
+        `-----------------------------`,
+        `*Customer Name:* ${name}`,
+        `*Black Card ID:* ${customer.black_card_id}`,
+        `*WhatsApp Number:* ${whatsapp}`,
+        ``,
+        `*Products / Services Ordered:*`,
+        `${items}`,
+        ``,
+        `*Cash on Hand:* R${cashAmount.toFixed(2)}`,
+        `*Payment Method:* ${paymentMethod}`,
+        `*Black Card Rewards Spent:* R${rewardsToSpend.toFixed(2)}`,
+        `*Discount Code:* ${discountCode || 'None'}`,
+        `-----------------------------`,
+        `_Sent via Shop MODISHA PWA_`
+      ].join('\n');
+
+      const waUrl = `https://wa.me/${SHOP_WHATSAPP_NUMBER}?text=${encodeURIComponent(waMessage)}`;
+      showToast('Order saved! +R1.00 Black Card reward credited. Opening WhatsApp...');
+      window.open(waUrl, '_blank');
+    }
+
+    // =========================================================================
+    // 5. CUSTOMER AUTH, BLACK CARD DASHBOARD & REWARDS TRANSFER
+    // =========================================================================
+    function openCustomerPortal() {
+      switchView('customer');
+      renderCustomerPortal();
+    }
+
+    function renderCustomerPortal() {
+      const loggedWa = getLocal(STORAGE_KEYS.SESSION_CUSTOMER, null);
+      const customers = getLocal(STORAGE_KEYS.CUSTOMERS, []);
+      const customer = customers.find(c => normalizePhone(c.whatsapp) === normalizePhone(loggedWa));
+
+      const loginBox = document.getElementById('customer-login-box');
+      const dashBox = document.getElementById('customer-dashboard-box');
+      const logoutBtn = document.getElementById('customer-logout-btn');
+
+      if (!customer) {
+        loginBox.classList.remove('hidden');
+        dashBox.classList.add('hidden');
+        logoutBtn.classList.add('hidden');
+        return;
+      }
+
+      loginBox.classList.add('hidden');
+      dashBox.classList.remove('hidden');
+      logoutBtn.classList.remove('hidden');
+
+      document.getElementById('cust-dash-name').textContent = customer.name;
+      document.getElementById('cust-dash-cardid').textContent = customer.black_card_id;
+      document.getElementById('cust-dash-wa').textContent = customer.whatsapp;
+      document.getElementById('cust-dash-balance').textContent = `R ${Number(customer.rewards).toFixed(2)}`;
+
+      const statusEl = document.getElementById('cust-dash-spend-status');
+      if (Number(customer.rewards) >= 50) {
+        statusEl.textContent = 'Unlocked! You can spend your rewards on the Order Form now.';
+      } else {
+        const needed = (50 - Number(customer.rewards)).toFixed(2);
+        statusEl.textContent = `Earn R${needed} more to reach the R50.00 spending threshold.`;
+      }
+
+      // Render Customer Notifications
+      const notifications = getLocal(STORAGE_KEYS.NOTIFICATIONS, [])
+        .filter(n => n.recipient_type === 'customer' && n.recipient_id.toUpperCase() === customer.black_card_id.toUpperCase());
+
+      const listEl = document.getElementById('cust-notifications-list');
+      if (notifications.length === 0) {
+        listEl.innerHTML = `<p class="text-xs text-zinc-400">No messages yet.</p>`;
+      } else {
+        listEl.innerHTML = notifications.map(n => `
+          <div class="p-4 rounded-2xl bg-zinc-50 border border-zinc-200 flex items-start justify-between gap-3">
+            <div class="flex items-start gap-3">
+              <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 mt-1.5 shrink-0"></span>
+              <p class="text-sm text-zinc-800 font-medium">${n.message}</p>
+            </div>
+            <span class="text-[11px] text-zinc-400 shrink-0">${new Date(n.created_at).toLocaleDateString()}</span>
+          </div>
+        `).join('');
+      }
+    }
+
+    function handleCustomerLogin(e) {
+      e.preventDefault();
+      const wa = normalizePhone(document.getElementById('cust-login-wa').value);
+      const pin = document.getElementById('cust-login-pin').value.trim();
+
+      const customers = getLocal(STORAGE_KEYS.CUSTOMERS, []);
+      const match = customers.find(c => normalizePhone(c.whatsapp) === wa && String(c.pin) === pin);
+
+      if (!match) {
+        showToast('Invalid WhatsApp Number or PIN. Please try again.', 'error');
+        return;
+      }
+
+      setLocal(STORAGE_KEYS.SESSION_CUSTOMER, match.whatsapp);
+      showToast(`Welcome back, ${match.name}!`);
+      refreshOrderFormAuthState();
+      renderCustomerPortal();
+    }
+
+    function logoutCustomer() {
+      localStorage.removeItem(STORAGE_KEYS.SESSION_CUSTOMER);
+      showToast('You have logged out of your Customer account.');
+      refreshOrderFormAuthState();
+      renderCustomerPortal();
+    }
+
+    async function handleCustomerTransfer(e) {
+      e.preventDefault();
+      const loggedWa = getLocal(STORAGE_KEYS.SESSION_CUSTOMER, null);
+      const customers = getLocal(STORAGE_KEYS.CUSTOMERS, []);
+      const senderIdx = customers.findIndex(c => normalizePhone(c.whatsapp) === normalizePhone(loggedWa));
+
+      if (senderIdx === -1) return;
+      const sender = customers[senderIdx];
+
+      // Rule: Sender must have a minimum balance of R10 to share/send rewards
+      if (Number(sender.rewards) < 10) {
+        showToast('You must have a minimum balance of R10.00 to share or send rewards.', 'error');
+        return;
+      }
+
+      const targetCardId = document.getElementById('transfer-target-id').value.trim().toUpperCase();
+      const amount = parseFloat(document.getElementById('transfer-amount').value);
+
+      if (isNaN(amount) || amount <= 0) {
+        showToast('Please enter a valid reward amount to send.', 'error');
+        return;
+      }
+      if (amount > Number(sender.rewards)) {
+        showToast('Insufficient Black Card rewards balance.', 'error');
+        return;
+      }
+      if (targetCardId === sender.black_card_id.toUpperCase()) {
+        showToast('You cannot transfer rewards to your own Black Card ID.', 'error');
+        return;
+      }
+
+      const recipientIdx = customers.findIndex(c => c.black_card_id.toUpperCase() === targetCardId);
+      if (recipientIdx === -1) {
+        showToast(`Recipient Black Card ID "${targetCardId}" was not found.`, 'error');
+        return;
+      }
+
+      // Deduct from sender & credit to recipient
+      customers[senderIdx].rewards = Number((Number(sender.rewards) - amount).toFixed(2));
+      customers[recipientIdx].rewards = Number((Number(customers[recipientIdx].rewards) + amount).toFixed(2));
+      setLocal(STORAGE_KEYS.CUSTOMERS, customers);
+
+      // Required automated notification on receiving account's dashboard
+      const autoMsg = `User received R${amount.toFixed(2)} amount of rewards from ${sender.black_card_id} black card ID.`;
+      await addNotification('customer', customers[recipientIdx].black_card_id, autoMsg);
+      await addNotification('customer', sender.black_card_id, `You sent R${amount.toFixed(2)} rewards to ${customers[recipientIdx].black_card_id}.`);
+
+      if (supabaseClient) {
+        try {
+          await supabaseClient.from('customers').update({ rewards: customers[senderIdx].rewards }).eq('black_card_id', sender.black_card_id);
+          await supabaseClient.from('customers').update({ rewards: customers[recipientIdx].rewards }).eq('black_card_id', customers[recipientIdx].black_card_id);
+        } catch (err) {}
+      }
+
+      document.getElementById('transfer-target-id').value = '';
+      document.getElementById('transfer-amount').value = '';
+      showToast(`Sent R${amount.toFixed(2)} to ${targetCardId}!`);
+      refreshOrderFormAuthState();
+      renderCustomerPortal();
+    }
+
+    // =========================================================================
+    // 6. BICYCLE COURIER APPLICATION, LOGIN & GOLD CARD DASHBOARD
+    // =========================================================================
+    function handleCourierApplication(e) {
+      e.preventDefault();
+      const name = document.getElementById('apply-courier-name').value.trim();
+      const wa = document.getElementById('apply-courier-wa').value.trim();
+      const email = document.getElementById('apply-courier-email').value.trim();
+
+      const msg = [
+        `*BICYCLE COURIER JOB APPLICATION — SHOP MODISHA*`,
+        `---------------------------------------------`,
+        `*Applicant Name:* ${name}`,
+        `*WhatsApp Number:* ${wa}`,
+        `*Email Address:* ${email}`,
+        `---------------------------------------------`,
+        `I would like to apply to work as a bicycle courier for Shop MODISHA.`
+      ].join('\n');
+
+      const url = `https://wa.me/${SHOP_WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
+      showToast('Opening WhatsApp to submit your courier application...');
+      window.open(url, '_blank');
+    }
+
+    function openCourierPortal() {
+      switchView('courier');
+      renderCourierPortal();
+    }
+
+    function renderCourierPortal() {
+      const loggedWa = getLocal(STORAGE_KEYS.SESSION_COURIER, null);
+      const couriers = getLocal(STORAGE_KEYS.COURIERS, []);
+      const courier = couriers.find(c => normalizePhone(c.whatsapp) === normalizePhone(loggedWa));
+
+      const loginBox = document.getElementById('courier-login-box');
+      const dashBox = document.getElementById('courier-dashboard-box');
+      const logoutBtn = document.getElementById('courier-logout-btn');
+      const navLabel = document.getElementById('nav-courier-label');
+
+      if (!courier) {
+        loginBox.classList.remove('hidden');
+        dashBox.classList.add('hidden');
+        logoutBtn.classList.add('hidden');
+        navLabel.textContent = 'Courier Portal';
+        return;
+      }
+
+      if (courier.suspended) {
+        localStorage.removeItem(STORAGE_KEYS.SESSION_COURIER);
+        showToast('This courier account has been suspended by Admin.', 'error');
+        renderCourierPortal();
+        return;
+      }
+
+      loginBox.classList.add('hidden');
+      dashBox.classList.remove('hidden');
+      logoutBtn.classList.remove('hidden');
+      navLabel.textContent = `Rider: ${courier.name.split(' ')[0]}`;
+
+      document.getElementById('cour-dash-name').textContent = courier.name;
+      document.getElementById('cour-dash-wa').textContent = courier.whatsapp;
+      document.getElementById('cour-dash-email').textContent = courier.email;
+      document.getElementById('cour-dash-earnings').textContent = `R ${Number(courier.total_earnings).toFixed(2)}`;
+      document.getElementById('cour-dash-trips').textContent = courier.trips;
+      document.getElementById('cour-dash-gold').textContent = `R ${Number(courier.gold_rewards).toFixed(2)}`;
+      document.getElementById('cour-gold-holder').textContent = courier.name.toUpperCase();
+
+      if (courier.selfie_img) document.getElementById('cour-dash-selfie').src = courier.selfie_img;
+      if (courier.bicycle_img) document.getElementById('cour-dash-bike').src = courier.bicycle_img;
+
+      const notifications = getLocal(STORAGE_KEYS.NOTIFICATIONS, [])
+        .filter(n => n.recipient_type === 'courier' && normalizePhone(n.recipient_id) === normalizePhone(courier.whatsapp));
+
+      const listEl = document.getElementById('cour-notifications-list');
+      if (notifications.length === 0) {
+        listEl.innerHTML = `<p class="text-xs text-zinc-400">No transaction messages from Admin yet.</p>`;
+      } else {
+        listEl.innerHTML = notifications.map(n => `
+          <div class="p-4 rounded-2xl bg-zinc-50 border border-zinc-200 flex items-start justify-between gap-3">
+            <div class="flex items-start gap-3">
+              <span class="w-2.5 h-2.5 rounded-full bg-amber-500 mt-1.5 shrink-0"></span>
+              <p class="text-sm text-zinc-800 font-medium">${n.message}</p>
+            </div>
+            <span class="text-[11px] text-zinc-400 shrink-0">${new Date(n.created_at).toLocaleDateString()}</span>
+          </div>
+        `).join('');
+      }
+    }
+
+    function handleCourierLogin(e) {
+      e.preventDefault();
+      const wa = normalizePhone(document.getElementById('cour-login-wa').value);
+      const pin = document.getElementById('cour-login-pin').value.trim();
+
+      const couriers = getLocal(STORAGE_KEYS.COURIERS, []);
+      const match = couriers.find(c => normalizePhone(c.whatsapp) === wa && String(c.pin) === pin);
+
+      if (!match) {
+        showToast('Invalid Courier WhatsApp Number or PIN.', 'error');
+        return;
+      }
+      if (match.suspended) {
+        showToast('Your courier account is currently suspended. Please contact Admin.', 'error');
+        return;
+      }
+
+      setLocal(STORAGE_KEYS.SESSION_COURIER, match.whatsapp);
+      showToast(`Welcome back, Rider ${match.name}!`);
+      renderCourierPortal();
+    }
+
+    function logoutCourier() {
+      localStorage.removeItem(STORAGE_KEYS.SESSION_COURIER);
+      showToast('Courier logged out.');
+      renderCourierPortal();
+    }
+
+    async function handleCourierSpendGold(e) {
+      e.preventDefault();
+      const loggedWa = getLocal(STORAGE_KEYS.SESSION_COURIER, null);
+      const couriers = getLocal(STORAGE_KEYS.COURIERS, []);
+      const idx = couriers.findIndex(c => normalizePhone(c.whatsapp) === normalizePhone(loggedWa));
+      if (idx === -1) return;
+
+      const courier = couriers[idx];
+      const amount = parseFloat(document.getElementById('cour-spend-amount').value);
+      const note = document.getElementById('cour-spend-note').value.trim();
+
+      // Delivery guys are able to spend their rewards as of R10
+      if (Number(courier.gold_rewards) < 10 || amount < 10) {
+        showToast('Gold Card rewards require a minimum of R10.00 to spend.', 'error');
+        return;
+      }
+      if (amount > Number(courier.gold_rewards)) {
+        showToast('Amount exceeds your Gold Card rewards balance.', 'error');
+        return;
+      }
+
+      couriers[idx].gold_rewards = Number((Number(courier.gold_rewards) - amount).toFixed(2));
+      setLocal(STORAGE_KEYS.COURIERS, couriers);
+
+      await addNotification('courier', courier.whatsapp, `Redeemed R${amount.toFixed(2)} Gold Card rewards for: ${note}.`);
+
+      if (supabaseClient) {
+        try {
+          await supabaseClient.from('couriers').update({ gold_rewards: couriers[idx].gold_rewards }).eq('whatsapp', courier.whatsapp);
+        } catch (err) {}
+      }
+
+      document.getElementById('cour-spend-amount').value = '';
+      document.getElementById('cour-spend-note').value = '';
+      showToast(`Redeemed R${amount.toFixed(2)} from your Gold Card!`);
+      renderCourierPortal();
+    }
+
+    // =========================================================================
+    // 7. ADMIN PORTAL, CUSTOMER & COURIER MANAGEMENT, BANNER & SUPABASE
+    // =========================================================================
+    function openAdminPortal() {
+      switchView('admin');
+      renderAdminPortal();
+    }
+
+    function renderAdminPortal() {
+      const isAdmin = getLocal(STORAGE_KEYS.SESSION_ADMIN, false) === true;
+      const loginBox = document.getElementById('admin-login-box');
+      const dashBox = document.getElementById('admin-dashboard-box');
+      const logoutBtn = document.getElementById('admin-logout-btn');
+
+      if (!isAdmin) {
+        loginBox.classList.remove('hidden');
+        dashBox.classList.add('hidden');
+        logoutBtn.classList.add('hidden');
+        return;
+      }
+
+      loginBox.classList.add('hidden');
+      dashBox.classList.remove('hidden');
+      logoutBtn.classList.remove('hidden');
+
+      renderAdminCustomers();
+      renderAdminCouriers();
+      renderAdminOrders();
+    }
+
+    async function handleAdminLogin(e) {
+      e.preventDefault();
+      const entered = document.getElementById('admin-password-input').value;
+
+      // Check against Supabase app_settings first if connected, otherwise local seeded DB
+      let storedPassword = getLocal(STORAGE_KEYS.SETTINGS, { admin_password: '#PetalChain_25' }).admin_password;
+
+      if (supabaseClient) {
+        try {
+          const { data } = await supabaseClient.from('app_settings').select('value').eq('key', 'admin_password').single();
+          if (data && data.value) storedPassword = data.value;
+        } catch (err) {}
+      }
+
+      if (entered === storedPassword) {
+        setLocal(STORAGE_KEYS.SESSION_ADMIN, true);
+        document.getElementById('admin-password-input').value = '';
+        showToast('Admin access granted.');
+        renderAdminPortal();
+      } else {
+        showToast('Incorrect administrative password.', 'error');
+      }
+    }
+
+    function logoutAdmin() {
+      localStorage.removeItem(STORAGE_KEYS.SESSION_ADMIN);
+      showToast('Admin logged out.');
+      renderAdminPortal();
+    }
+
+    function switchAdminTab(tab) {
+      ['customers', 'couriers', 'banner', 'supabase'].forEach(t => {
+        document.getElementById(`admin-panel-${t}`).classList.add('hidden');
+        const btn = document.getElementById(`adm-tab-${t}`);
+        btn.className = 'px-4 py-2.5 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-300 text-xs sm:text-sm font-bold transition cursor-pointer';
+      });
+      document.getElementById(`admin-panel-${tab}`).classList.remove('hidden');
+      const activeBtn = document.getElementById(`adm-tab-${tab}`);
+      activeBtn.className = 'px-4 py-2.5 rounded-xl bg-emerald-600 text-white text-xs sm:text-sm font-bold transition cursor-pointer';
+    }
+
+    // --- Admin Customer CRUD ---
+    async function handleAdminRegisterCustomer(e) {
+      e.preventDefault();
+      const name = document.getElementById('reg-cust-name').value.trim();
+      const black_card_id = document.getElementById('reg-cust-cardid').value.trim().toUpperCase();
+      const pin = document.getElementById('reg-cust-pin').value.trim();
+      const rewards = parseFloat(document.getElementById('reg-cust-rewards').value) || 0;
+      const whatsapp = normalizePhone(document.getElementById('reg-cust-wa').value);
+      const welcome = document.getElementById('reg-cust-welcome').value.trim();
+
+      const customers = getLocal(STORAGE_KEYS.CUSTOMERS, []);
+      if (customers.some(c => c.black_card_id.toUpperCase() === black_card_id)) {
+        showToast(`Black Card ID "${black_card_id}" already exists!`, 'error');
+        return;
+      }
+      if (customers.some(c => normalizePhone(c.whatsapp) === whatsapp)) {
+        showToast(`WhatsApp Number "${whatsapp}" is already registered!`, 'error');
+        return;
+      }
+
+      const newCustomer = {
+        id: 'cust-' + Date.now(),
+        name,
+        black_card_id,
+        pin,
+        whatsapp,
+        rewards
+      };
+      customers.push(newCustomer);
+      setLocal(STORAGE_KEYS.CUSTOMERS, customers);
+
+      await addNotification('customer', black_card_id, welcome);
+
+      if (supabaseClient) {
+        try {
+          await supabaseClient.from('customers').insert([{
+            name, black_card_id, pin, whatsapp, rewards
+          }]);
+        } catch (err) {}
+      }
+
+      e.target.reset();
+      document.getElementById('reg-cust-rewards').value = 0;
+      showToast(`Customer ${name} (${black_card_id}) registered!`);
+      renderAdminCustomers();
+    }
+
+    function renderAdminCustomers() {
+      const query = (document.getElementById('admin-cust-search')?.value || '').trim().toUpperCase();
+      let customers = [...getLocal(STORAGE_KEYS.CUSTOMERS, [])];
+
+      // Arrange customer entries in ascending order of Black Card ID / Name
+      customers.sort((a, b) => {
+        const cmpId = a.black_card_id.localeCompare(b.black_card_id, undefined, { numeric: true, sensitivity: 'base' });
+        return cmpId !== 0 ? cmpId : a.name.localeCompare(b.name);
+      });
+
+      if (query) {
+        customers = customers.filter(c =>
+          c.black_card_id.toUpperCase().includes(query) ||
+          c.name.toUpperCase().includes(query)
+        );
+      }
+
+      const container = document.getElementById('admin-customers-list');
+      if (customers.length === 0) {
+        container.innerHTML = `<p class="text-sm text-zinc-400 py-6 text-center">No matching customers found.</p>`;
+        return;
+      }
+
+      container.innerHTML = customers.map(c => `
+        <div class="p-4 rounded-2xl border border-zinc-200 bg-zinc-50 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="px-2.5 py-0.5 rounded-lg bg-zinc-950 text-emerald-400 font-mono text-xs font-bold">${c.black_card_id}</span>
+              <h4 class="font-extrabold text-zinc-950 text-sm sm:text-base">${c.name}</h4>
+            </div>
+            <p class="text-xs text-zinc-500 mt-1">WhatsApp: <strong>${c.whatsapp}</strong> &bull; PIN: <span class="font-mono">${c.pin}</span> &bull; Balance: <strong class="text-emerald-700">R${Number(c.rewards).toFixed(2)}</strong></p>
+          </div>
+          <div class="flex flex-wrap items-center gap-2">
+            <button onclick="openEditCustomerModal('${c.black_card_id}')" class="px-3 py-1.5 rounded-lg bg-zinc-900 hover:bg-zinc-800 text-white text-xs font-semibold cursor-pointer">Modify</button>
+            <button onclick="openMessageCustomerModal('${c.black_card_id}')" class="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold cursor-pointer">Post Message</button>
+            <button onclick="deleteCustomerAccount('${c.black_card_id}')" class="px-3 py-1.5 rounded-lg bg-red-100 hover:bg-red-600 text-red-700 hover:text-white text-xs font-semibold transition cursor-pointer">Delete</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function openEditCustomerModal(blackCardId) {
+      const customers = getLocal(STORAGE_KEYS.CUSTOMERS, []);
+      const c = customers.find(item => item.black_card_id === blackCardId);
+      if (!c) return;
+
+      document.getElementById('admin-modal-title').textContent = `Modify Customer (${c.black_card_id})`;
+      document.getElementById('admin-modal-body').innerHTML = `
+        <form onsubmit="saveCustomerEdit(event, '${c.black_card_id}')" class="space-y-3.5">
+          <div>
+            <label class="block text-xs font-bold uppercase text-zinc-700 mb-1">Customer Name</label>
+            <input type="text" id="edit-cust-name" value="${c.name}" required class="w-full px-3.5 py-2.5 rounded-xl border border-zinc-300 text-sm" />
+          </div>
+          <div>
+            <label class="block text-xs font-bold uppercase text-zinc-700 mb-1">WhatsApp Number</label>
+            <input type="tel" id="edit-cust-wa" value="${c.whatsapp}" required class="w-full px-3.5 py-2.5 rounded-xl border border-zinc-300 text-sm" />
+          </div>
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-bold uppercase text-zinc-700 mb-1">PIN</label>
+              <input type="text" id="edit-cust-pin" value="${c.pin}" required class="w-full px-3.5 py-2.5 rounded-xl border border-zinc-300 text-sm" />
+            </div>
+            <div>
+              <label class="block text-xs font-bold uppercase text-zinc-700 mb-1">Black Card Rewards (R)</label>
+              <input type="number" id="edit-cust-rewards" step="0.01" value="${Number(c.rewards).toFixed(2)}" required class="w-full px-3.5 py-2.5 rounded-xl border border-zinc-300 text-sm" />
+            </div>
+          </div>
+          <button type="submit" class="w-full py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm cursor-pointer">Save Changes</button>
+        </form>
+      `;
+      document.getElementById('admin-action-modal').classList.remove('hidden');
+    }
+
+    async function saveCustomerEdit(e, blackCardId) {
+      e.preventDefault();
+      const customers = getLocal(STORAGE_KEYS.CUSTOMERS, []);
+      const idx = customers.findIndex(c => c.black_card_id === blackCardId);
+      if (idx === -1) return;
+
+      customers[idx].name = document.getElementById('edit-cust-name').value.trim();
+      customers[idx].whatsapp = normalizePhone(document.getElementById('edit-cust-wa').value);
+      customers[idx].pin = document.getElementById('edit-cust-pin').value.trim();
+      customers[idx].rewards = parseFloat(document.getElementById('edit-cust-rewards').value) || 0;
+
+      setLocal(STORAGE_KEYS.CUSTOMERS, customers);
+
+      if (supabaseClient) {
+        try {
+          await supabaseClient.from('customers').update({
+            name: customers[idx].name,
+            whatsapp: customers[idx].whatsapp,
+            pin: customers[idx].pin,
+            rewards: customers[idx].rewards
+          }).eq('black_card_id', blackCardId);
+        } catch (err) {}
+      }
+
+      closeAdminModal();
+      showToast('Customer account updated.');
+      renderAdminCustomers();
+      refreshOrderFormAuthState();
+    }
+
+    function openMessageCustomerModal(blackCardId) {
+      document.getElementById('admin-modal-title').textContent = `Post Message to ${blackCardId}`;
+      document.getElementById('admin-modal-body').innerHTML = `
+        <form onsubmit="submitCustomerAdminMessage(event, '${blackCardId}')" class="space-y-4">
+          <div>
+            <label class="block text-xs font-bold uppercase text-zinc-700 mb-1">Dashboard Message *</label>
+            <textarea id="admin-cust-msg-text" rows="3" required placeholder="Type message for customer's dashboard..." class="w-full px-3.5 py-2.5 rounded-xl border border-zinc-300 text-sm"></textarea>
+          </div>
+          <button type="submit" class="w-full py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm cursor-pointer">Post to Dashboard</button>
+        </form>
+      `;
+      document.getElementById('admin-action-modal').classList.remove('hidden');
+    }
+
+    async function submitCustomerAdminMessage(e, blackCardId) {
+      e.preventDefault();
+      const msg = document.getElementById('admin-cust-msg-text').value.trim();
+      await addNotification('customer', blackCardId, msg);
+      closeAdminModal();
+      showToast(`Message posted to ${blackCardId}'s dashboard.`);
+    }
+
+    async function deleteCustomerAccount(blackCardId) {
+      let customers = getLocal(STORAGE_KEYS.CUSTOMERS, []);
+      customers = customers.filter(c => c.black_card_id !== blackCardId);
+      setLocal(STORAGE_KEYS.CUSTOMERS, customers);
+
+      if (supabaseClient) {
+        try {
+          await supabaseClient.from('customers').delete().eq('black_card_id', blackCardId);
+        } catch (err) {}
+      }
+
+      showToast(`Customer ${blackCardId} deleted.`);
+      renderAdminCustomers();
+    }
+
+    // --- Admin Bicycle Courier CRUD ---
+    async function handleAdminRegisterCourier(e) {
+      e.preventDefault();
+      const name = document.getElementById('reg-cour-name').value.trim();
+      const whatsapp = normalizePhone(document.getElementById('reg-cour-wa').value);
+      const pin = document.getElementById('reg-cour-pin').value.trim();
+      const email = document.getElementById('reg-cour-email').value.trim();
+      const total_earnings = parseFloat(document.getElementById('reg-cour-earnings').value) || 0;
+      const gold_rewards = parseFloat(document.getElementById('reg-cour-gold').value) || 0;
+
+      const bikeFile = document.getElementById('reg-cour-bike-file').files[0];
+      const selfieFile = document.getElementById('reg-cour-selfie-file').files[0];
+
+      const couriers = getLocal(STORAGE_KEYS.COURIERS, []);
+      if (couriers.some(c => normalizePhone(c.whatsapp) === whatsapp)) {
+        showToast('A courier with this WhatsApp number already exists.', 'error');
+        return;
+      }
+
+      const bicycle_img = await fileToBase64(bikeFile);
+      const selfie_img = await fileToBase64(selfieFile);
+
+      const newCourier = {
+        id: 'cour-' + Date.now(),
+        name,
+        whatsapp,
+        email,
+        pin,
+        bicycle_img,
+        selfie_img,
+        total_earnings,
+        trips: 0,
+        gold_rewards,
+        suspended: false
+      };
+
+      couriers.push(newCourier);
+      setLocal(STORAGE_KEYS.COURIERS, couriers);
+
+      await addNotification('courier', whatsapp, `Welcome to the Shop MODISHA Bicycle Courier team, ${name}!`);
+
+      if (supabaseClient) {
+        try {
+          await supabaseClient.from('couriers').insert([{
+            name, whatsapp, email, pin, bicycle_img, selfie_img, total_earnings, trips: 0, gold_rewards, suspended: false
+          }]);
+        } catch (err) {}
+      }
+
+      e.target.reset();
+      showToast(`Bicycle Courier ${name} registered!`);
+      renderAdminCouriers();
+    }
+
+    function renderAdminCouriers() {
+      const couriers = getLocal(STORAGE_KEYS.COURIERS, []);
+      const container = document.getElementById('admin-couriers-list');
+
+      if (couriers.length === 0) {
+        container.innerHTML = `<p class="text-sm text-zinc-400 py-6 text-center">No bicycle couriers registered yet.</p>`;
+        return;
+      }
+
+      container.innerHTML = couriers.map(c => `
+        <div class="p-4 rounded-2xl border ${c.suspended ? 'border-red-300 bg-red-50/50' : 'border-zinc-200 bg-zinc-50'} flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div class="flex items-center gap-3.5">
+            <img src="${c.selfie_img || 'https://placehold.co/80x80/059669/FFFFFF?text=Rider'}" alt="${c.name}" class="w-14 h-14 rounded-xl object-cover border border-zinc-300 shrink-0" />
+            <div>
+              <div class="flex items-center gap-2">
+                <h4 class="font-extrabold text-zinc-950 text-sm sm:text-base">${c.name}</h4>
+                <span class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase ${c.suspended ? 'bg-red-600 text-white' : 'bg-emerald-100 text-emerald-800'}">
+                  ${c.suspended ? 'Suspended' : 'Active'}
+                </span>
+              </div>
+              <p class="text-xs text-zinc-500 mt-0.5">WA: <strong>${c.whatsapp}</strong> &bull; Trips: <strong>${c.trips}</strong> &bull; Earnings: <strong class="text-emerald-700">R${Number(c.total_earnings).toFixed(2)}</strong> &bull; Gold Card: <strong class="text-amber-600">R${Number(c.gold_rewards).toFixed(2)}</strong></p>
+            </div>
+          </div>
+          <div class="flex flex-wrap items-center gap-2">
+            <button onclick="openEditCourierModal('${c.whatsapp}')" class="px-3 py-1.5 rounded-lg bg-zinc-900 hover:bg-zinc-800 text-white text-xs font-semibold cursor-pointer">Modify</button>
+            <button onclick="openMessageCourierModal('${c.whatsapp}')" class="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold cursor-pointer">Post Transaction</button>
+            <button onclick="toggleSuspendCourier('${c.whatsapp}')" class="px-3 py-1.5 rounded-lg bg-amber-100 hover:bg-amber-500 text-amber-900 hover:text-white text-xs font-semibold transition cursor-pointer">${c.suspended ? 'Reactivate' : 'Suspend'}</button>
+            <button onclick="deleteCourierAccount('${c.whatsapp}')" class="px-3 py-1.5 rounded-lg bg-red-100 hover:bg-red-600 text-red-700 hover:text-white text-xs font-semibold transition cursor-pointer">Delete</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function openEditCourierModal(whatsapp) {
+      const couriers = getLocal(STORAGE_KEYS.COURIERS, []);
+      const c = couriers.find(item => item.whatsapp === whatsapp);
+      if (!c) return;
+
+      document.getElementById('admin-modal-title').textContent = `Modify Courier (${c.name})`;
+      document.getElementById('admin-modal-body').innerHTML = `
+        <form onsubmit="saveCourierEdit(event, '${c.whatsapp}')" class="space-y-3.5">
+          <div class="grid grid-cols-3 gap-3">
+            <div>
+              <label class="block text-xs font-bold uppercase text-zinc-700 mb-1">Number of Trips</label>
+              <input type="number" id="edit-cour-trips" min="0" value="${c.trips}" required class="w-full px-3 py-2.5 rounded-xl border border-zinc-300 text-sm" />
+            </div>
+            <div>
+              <label class="block text-xs font-bold uppercase text-zinc-700 mb-1">Total Earnings (R)</label>
+              <input type="number" id="edit-cour-earnings" step="0.01" value="${Number(c.total_earnings).toFixed(2)}" required class="w-full px-3 py-2.5 rounded-xl border border-zinc-300 text-sm" />
+            </div>
+            <div>
+              <label class="block text-xs font-bold uppercase text-zinc-700 mb-1">Gold Rewards (R)</label>
+              <input type="number" id="edit-cour-gold" step="0.01" value="${Number(c.gold_rewards).toFixed(2)}" required class="w-full px-3 py-2.5 rounded-xl border border-zinc-300 text-sm" />
+            </div>
+          </div>
+          <div>
+            <label class="block text-xs font-bold uppercase text-zinc-700 mb-1">Change Bicycle Image (Optional)</label>
+            <input type="file" id="edit-cour-bike-file" accept="image/*" class="w-full text-xs text-zinc-600 file:mr-3 file:py-2 file:px-3 file:rounded-lg file:border-0 file:bg-emerald-50 file:text-emerald-700 file:font-semibold" />
+          </div>
+          <button type="submit" class="w-full py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm cursor-pointer">Save Courier Updates</button>
+        </form>
+      `;
+      document.getElementById('admin-action-modal').classList.remove('hidden');
+    }
+
+    async function saveCourierEdit(e, whatsapp) {
+      e.preventDefault();
+      const couriers = getLocal(STORAGE_KEYS.COURIERS, []);
+      const idx = couriers.findIndex(c => c.whatsapp === whatsapp);
+      if (idx === -1) return;
+
+      couriers[idx].trips = parseInt(document.getElementById('edit-cour-trips').value, 10) || 0;
+      couriers[idx].total_earnings = parseFloat(document.getElementById('edit-cour-earnings').value) || 0;
+      couriers[idx].gold_rewards = parseFloat(document.getElementById('edit-cour-gold').value) || 0;
+
+      const newBikeFile = document.getElementById('edit-cour-bike-file').files[0];
+      if (newBikeFile) {
+        couriers[idx].bicycle_img = await fileToBase64(newBikeFile);
+      }
+
+      setLocal(STORAGE_KEYS.COURIERS, couriers);
+
+      if (supabaseClient) {
+        try {
+          await supabaseClient.from('couriers').update({
+            trips: couriers[idx].trips,
+            total_earnings: couriers[idx].total_earnings,
+            gold_rewards: couriers[idx].gold_rewards,
+            bicycle_img: couriers[idx].bicycle_img
+          }).eq('whatsapp', whatsapp);
+        } catch (err) {}
+      }
+
+      closeAdminModal();
+      showToast('Courier details updated.');
+      renderAdminCouriers();
+    }
+
+    function openMessageCourierModal(whatsapp) {
+      document.getElementById('admin-modal-title').textContent = `Post Transaction Message to Rider`;
+      document.getElementById('admin-modal-body').innerHTML = `
+        <form onsubmit="submitCourierAdminMessage(event, '${whatsapp}')" class="space-y-4">
+          <div>
+            <label class="block text-xs font-bold uppercase text-zinc-700 mb-1">Transaction / Payout Message *</label>
+            <textarea id="admin-cour-msg-text" rows="3" required placeholder="e.g. Paid R250.00 via EFT for 10 trips completed." class="w-full px-3.5 py-2.5 rounded-xl border border-zinc-300 text-sm"></textarea>
+          </div>
+          <button type="submit" class="w-full py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm cursor-pointer">Post to Courier Dashboard</button>
+        </form>
+      `;
+      document.getElementById('admin-action-modal').classList.remove('hidden');
+    }
+
+    async function submitCourierAdminMessage(e, whatsapp) {
+      e.preventDefault();
+      const msg = document.getElementById('admin-cour-msg-text').value.trim();
+      await addNotification('courier', whatsapp, msg);
+      closeAdminModal();
+      showToast('Transaction notification posted to courier dashboard.');
+    }
+
+    async function toggleSuspendCourier(whatsapp) {
+      const couriers = getLocal(STORAGE_KEYS.COURIERS, []);
+      const idx = couriers.findIndex(c => c.whatsapp === whatsapp);
+      if (idx === -1) return;
+
+      couriers[idx].suspended = !couriers[idx].suspended;
+      setLocal(STORAGE_KEYS.COURIERS, couriers);
+
+      if (supabaseClient) {
+        try {
+          await supabaseClient.from('couriers').update({ suspended: couriers[idx].suspended }).eq('whatsapp', whatsapp);
+        } catch (err) {}
+      }
+
+      showToast(couriers[idx].suspended ? 'Courier account suspended.' : 'Courier account reactivated.');
+      renderAdminCouriers();
+    }
+
+    async function deleteCourierAccount(whatsapp) {
+      let couriers = getLocal(STORAGE_KEYS.COURIERS, []);
+      couriers = couriers.filter(c => c.whatsapp !== whatsapp);
+      setLocal(STORAGE_KEYS.COURIERS, couriers);
+
+      if (supabaseClient) {
+        try {
+          await supabaseClient.from('couriers').delete().eq('whatsapp', whatsapp);
+        } catch (err) {}
+      }
+
+      showToast('Courier account deleted.');
+      renderAdminCouriers();
+    }
+
+    function closeAdminModal() {
+      document.getElementById('admin-action-modal').classList.add('hidden');
+    }
+
+    // --- Promo Banner (1500x500) & Orders Log ---
+    async function handleAdminUpdateBanner(e) {
+      e.preventDefault();
+      const urlInp = document.getElementById('admin-banner-url').value.trim();
+      const fileInp = document.getElementById('admin-banner-file').files[0];
+      const headline = document.getElementById('admin-banner-headline').value.trim();
+
+      const settings = getLocal(STORAGE_KEYS.SETTINGS, {});
+      if (fileInp) {
+        settings.banner_url = await fileToBase64(fileInp);
+      } else if (urlInp) {
+        settings.banner_url = urlInp;
+      }
+      if (headline) {
+        settings.banner_headline = headline;
+      }
+
+      setLocal(STORAGE_KEYS.SETTINGS, settings);
+      applyBannerSettings();
+      showToast('Promotional banner updated on storefront!');
+    }
+
+    function resetPromoBanner() {
+      const settings = getLocal(STORAGE_KEYS.SETTINGS, {});
+      settings.banner_url = '';
+      settings.banner_headline = 'Fresh Bread, Milk & 2L Cold Drink Bundle + 10% OFF';
+      setLocal(STORAGE_KEYS.SETTINGS, settings);
+      applyBannerSettings();
+      showToast('Promotional banner reset to default.');
+    }
+
+    function applyBannerSettings() {
+      const settings = getLocal(STORAGE_KEYS.SETTINGS, {});
+      const imgEl = document.getElementById('promo-banner-img');
+      const defEl = document.getElementById('promo-banner-default');
+      const titleEl = document.getElementById('promo-title-text');
+
+      if (settings.banner_url) {
+        imgEl.src = settings.banner_url;
+        imgEl.classList.remove('hidden');
+        defEl.classList.add('hidden');
+      } else {
+        imgEl.classList.add('hidden');
+        defEl.classList.remove('hidden');
+      }
+      if (settings.banner_headline && titleEl) {
+        titleEl.textContent = settings.banner_headline;
+      }
+    }
+
+    function renderAdminOrders() {
+      const orders = getLocal(STORAGE_KEYS.ORDERS, []);
+      const container = document.getElementById('admin-orders-list');
+      if (orders.length === 0) {
+        container.innerHTML = `<p class="text-xs text-zinc-400 py-6 text-center">No orders logged yet.</p>`;
+        return;
+      }
+      container.innerHTML = orders.map(o => `
+        <div class="p-3.5 rounded-2xl border border-zinc-200 bg-zinc-50 text-xs space-y-1">
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-zinc-950">${o.customer_name} (${o.black_card_id})</span>
+            <span class="text-zinc-400">${new Date(o.created_at).toLocaleString()}</span>
+          </div>
+          <p class="text-zinc-700 whitespace-pre-line">${o.items}</p>
+          <p class="text-emerald-700 font-semibold">Cash: R${Number(o.cash_amount).toFixed(2)} &bull; Method: ${o.payment_method} &bull; Rewards Spent: R${Number(o.rewards_spent).toFixed(2)} &bull; Code: ${o.discount_code}</p>
+        </div>
+      `).join('');
+    }
+
+    // --- Supabase Config Handlers (Admin Only) ---
+    async function saveSupabaseConfig(e) {
+      e.preventDefault();
+      const url = document.getElementById('sb-url-input').value.trim();
+      const key = document.getElementById('sb-key-input').value.trim();
+      setLocal(STORAGE_KEYS.SB_CONFIG, { url, key });
+      await initSupabaseFromStorage();
+      showToast('Supabase configuration saved and connected!');
+    }
+
+    function disconnectSupabase() {
+      localStorage.removeItem(STORAGE_KEYS.SB_CONFIG);
+      supabaseClient = null;
+      const badge = document.getElementById('sb-connection-badge');
+      if (badge) {
+        badge.textContent = 'Local Cache Mode';
+        badge.className = 'px-2.5 py-1 rounded-full bg-amber-100 text-amber-800 text-xs font-bold';
+      }
+      showToast('Supabase disconnected. Running in local mode.');
+    }
+
+    function copySupabaseSQL() {
+      const sqlText = document.getElementById('supabase-sql-code').textContent;
+      const tempArea = document.createElement('textarea');
+      tempArea.value = sqlText;
+      document.body.appendChild(tempArea);
+      tempArea.select();
+      document.execCommand('copy');
+      document.body.removeChild(tempArea);
+      showToast('Supabase SQL setup script copied to clipboard!');
+    }
+
+    async function addNotification(recipientType, recipientId, message) {
+      const notifications = getLocal(STORAGE_KEYS.NOTIFICATIONS, []);
+      const entry = {
+        id: 'not-' + Date.now() + Math.random().toString(36).slice(2, 6),
+        recipient_type: recipientType,
+        recipient_id: recipientId,
+        message,
+        created_at: new Date().toISOString()
+      };
+      notifications.unshift(entry);
+      setLocal(STORAGE_KEYS.NOTIFICATIONS, notifications);
+
+      if (supabaseClient) {
+        try {
+          await supabaseClient.from('notifications').insert([{
+            recipient_type: recipientType,
+            recipient_id: recipientId,
+            message
+          }]);
+        } catch (err) {}
+      }
+    }
+
+    // =========================================================================
+    // 8. DETAILED LEGAL MODALS (PRIVACY POLICY, TERMS OF USE, T&Cs)
+    // =========================================================================
+    const LEGAL_DOCS = {
+      privacy: {
+        title: "Privacy Policy (POPIA Compliant)",
+        html: `
+          <p><strong>Effective Date:</strong> January 1, 2026 &bull; <strong>Jurisdiction:</strong> Republic of South Africa</p>
+          <h4 class="font-bold text-zinc-950 text-base">1. Commitment to Data Protection</h4>
+          <p>Shop MODISHA respects your constitutional right to privacy and complies strictly with the Protection of Personal Information Act 4 of 2013 (POPIA). This Privacy Policy outlines how we collect, store, use, and safeguard your personal information when you use the Shop MODISHA Progressive Web App (PWA).</p>
+          <h4 class="font-bold text-zinc-950 text-base">2. Information We Collect</h4>
+          <ul class="list-disc pl-5 space-y-1">
+            <li><strong>Customer Account Data:</strong> Full name, WhatsApp telephone number, custom Black Card ID, security PIN, order history, and loyalty reward balances.</li>
+            <li><strong>Bicycle Courier Data:</strong> Full name, WhatsApp number, email address, security PIN, verification selfie photograph, bicycle photograph, completed trip logs, earnings records, and Gold Card reward balances.</li>
+            <li><strong>Order &amp; Transaction Details:</strong> Items and services ordered, quantities, payment preferences, cash-on-hand declarations, and promotional codes.</li>
+          </ul>
+          <h4 class="font-bold text-zinc-950 text-base">3. How We Use Your Information</h4>
+          <p>Your personal data is processed exclusively to: (a) dispatch your orders via WhatsApp to our fulfillment team and bicycle couriers; (b) administer Black Card and Gold Card reward balances; (c) verify courier identity and fleet safety; and (d) send essential account notifications.</p>
+          <h4 class="font-bold text-zinc-950 text-base">4. Data Storage, Security &amp; Your Rights</h4>
+          <p>Records are securely persisted using encrypted cloud database infrastructure and local device storage for seamless offline PWA continuity. We never sell or rent your personal information to third-party marketers. You may request access to, correction of, or deletion of your account at any time via Shop MODISHA Admin.</p>
+        `
+      },
+      termsOfUse: {
+        title: "Terms of Use & Loyalty Rewards Program Rules",
+        html: `
+          <h4 class="font-bold text-zinc-950 text-base">1. Acceptance of App Terms</h4>
+          <p>By accessing or installing the Shop MODISHA Progressive Web App, creating a Customer Black Card account, or logging into the Bicycle Courier Portal, you agree to abide by these Terms of Use.</p>
+          <h4 class="font-bold text-zinc-950 text-base">2. Customer Account Security</h4>
+          <p>Customers must log in with their registered WhatsApp number and personal PIN before submitting an order. You are responsible for keeping your PIN confidential and ensuring accurate delivery details.</p>
+          <h4 class="font-bold text-zinc-950 text-base">3. Shop MODISHA Black Card Rewards Rules</h4>
+          <ul class="list-disc pl-5 space-y-1">
+            <li><strong>Earning Rate:</strong> Registered customers earn <strong>R1.00</strong> in Black Card rewards for each valid order placed through the app.</li>
+            <li><strong>Peer-to-Peer Sharing:</strong> Customers holding a minimum balance of <strong>R10.00</strong> may transfer rewards to another active Shop MODISHA member using their valid Black Card ID. Transfers are irreversible once confirmed.</li>
+            <li><strong>Redemption Threshold:</strong> Black Card rewards may only be spent once a customer reaches a minimum balance of <strong>R50.00</strong>. Rewards have no external cash value and are redeemable strictly inside the Shop MODISHA app.</li>
+          </ul>
+          <h4 class="font-bold text-zinc-950 text-base">4. Courier Gold Card Rewards Rules</h4>
+          <p>Approved bicycle couriers earn Gold Card rewards allocated by Shop MODISHA Admin for completed trips and fulfilled deliveries. Couriers may redeem their Gold Card rewards on the app once their balance reaches <strong>R10.00 or more</strong>.</p>
+        `
+      },
+      termsConditions: {
+        title: "Terms and Conditions of Sale, Services & Delivery",
+        html: `
+          <h4 class="font-bold text-zinc-950 text-base">1. Products &amp; Community Services</h4>
+          <p>Shop MODISHA facilitates the ordering of everyday household groceries (including bread, milk, cold drinks, and prepaid airtime) as well as local community services (such as yard cleaning, firewood supply, water supply, event DJ bookings, and local transportation).</p>
+          <h4 class="font-bold text-zinc-950 text-base">2. Order Confirmation &amp; Payment</h4>
+          <p>Submitting the Order Form initiates an official order chat with Shop MODISHA via WhatsApp (082 459 8656). Customers must accurately declare their payment method (Cash or Card) and available cash on hand to ensure smooth courier change handling or card machine dispatch.</p>
+          <h4 class="font-bold text-zinc-950 text-base">3. Delivery &amp; Service Execution</h4>
+          <p>Local product deliveries are fulfilled primarily by our registered bicycle courier fleet. Delivery times depend on weather, distance, and stock availability. Service bookings (such as yard cleaning, DJ functions, or transport) are scheduled directly upon WhatsApp confirmation.</p>
+          <h4 class="font-bold text-zinc-950 text-base">4. Bicycle Courier Conduct &amp; Suspension</h4>
+          <p>Registered bicycle couriers must maintain roadworthy bicycles and uphold courteous customer service. Shop MODISHA reserves the right to suspend or terminate any courier or customer account involved in fraudulent orders, reward abuse, or unsafe conduct.</p>
+        `
+      }
+    };
+
+    function openLegalModal(docKey) {
+      const doc = LEGAL_DOCS[docKey];
+      if (!doc) return;
+      document.getElementById('legal-modal-title').textContent = doc.title;
+      document.getElementById('legal-modal-content').innerHTML = doc.html;
+      document.getElementById('legal-modal').classList.remove('hidden');
+    }
+
+    function closeLegalModal() {
+      document.getElementById('legal-modal').classList.add('hidden');
+    }
+
+    // =========================================================================
+    // 9. BOOTSTRAP APPLICATION ON LOAD
+    // =========================================================================
+    window.addEventListener('DOMContentLoaded', async () => {
+      document.getElementById('current-year').textContent = new Date().getFullYear();
+      seedInitialData();
+      await initSupabaseFromStorage();
+      applyBannerSettings();
+      renderCatalog('all');
+      refreshOrderFormAuthState();
+
+      // Update courier nav badge if persistent session exists
+      const loggedCour = getLocal(STORAGE_KEYS.SESSION_COURIER, null);
+      if (loggedCour) {
+        const cour = getLocal(STORAGE_KEYS.COURIERS, []).find(c => normalizePhone(c.whatsapp) === normalizePhone(loggedCour));
+        if (cour && !cour.suspended) {
+          document.getElementById('nav-courier-label').textContent = `Rider: ${cour.name.split(' ')[0]}`;
+        }
+      }
+    });
+  </script>
+</body>
+</html>
