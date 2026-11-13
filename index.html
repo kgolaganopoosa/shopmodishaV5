@@ -5,14 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#059669" />
   <meta name="description" content="Shop MODISHA — Local essentials, household products, and community services delivered right to your door with Black Card & Gold Card loyalty rewards." />
+  <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Shop MODISHA" />
   <title>Shop MODISHA | Local Essentials, Services & Rewards</title>
 
-  <!-- SVG Favicon: Vibrant Emerald Green (#059669) Background with Centered White Shopping Cart -->
-  <link id="dynamic-favicon" rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='112' fill='%23059669'/%3E%3Cpath fill='none' stroke='%23FFFFFF' stroke-width='36' stroke-linecap='round' stroke-linejoin='round' d='M112 144h44l36 184h184l32-128H172'/%3E%3Ccircle cx='212' cy='384' r='26' fill='%23FFFFFF'/%3E%3Ccircle cx='356' cy='384' r='26' fill='%23FFFFFF'/%3E%3C/svg%3E" />
-  <link id="apple-touch-icon" rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='112' fill='%23059669'/%3E%3Cpath fill='none' stroke='%23FFFFFF' stroke-width='36' stroke-linecap='round' stroke-linejoin='round' d='M112 144h44l36 184h184l32-128H172'/%3E%3Ccircle cx='212' cy='384' r='26' fill='%23FFFFFF'/%3E%3Ccircle cx='356' cy='384' r='26' fill='%23FFFFFF'/%3E%3C/svg%3E" />
+  <!-- PWA App Icon & Favicon: Emerald Green (#059669) Background with Centered Medium White Dot -->
+  <link id="dynamic-favicon" rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='112' fill='%23059669'/%3E%3Ccircle cx='256' cy='256' r='84' fill='%23FFFFFF'/%3E%3C/svg%3E" />
+  <link id="apple-touch-icon" rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='112' fill='%23059669'/%3E%3Ccircle cx='256' cy='256' r='84' fill='%23FFFFFF'/%3E%3C/svg%3E" />
+  <link rel="manifest" id="manifestLink" />
 
   <!-- Google Fonts: Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -50,17 +52,21 @@
   <!-- Toast / Non-Blocking Notification Container -->
   <div id="toast-container" class="fixed top-4 right-4 z-[100] flex flex-col gap-2 max-w-sm w-full pointer-events-none px-4 sm:px-0"></div>
 
-  <!-- PWA & Mobile Web App Meta Tags -->
-    <meta name="theme-color" content="#059669">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Shop MODISHA">
-    <meta name="description" content="Shop MODISHA Express WhatsApp Ordering Portal, Local Delivery Service, and Black Card Rewards.">
-
-    <!-- Web App Manifest (Data URI) -->
-    <link rel="manifest" id="manifestLink">
-
+  <!-- Optional PWA Install Banner -->
+  <div id="pwa-install-banner" class="hidden bg-emerald-950 text-white border-b border-emerald-800 px-4 py-2.5 text-xs sm:text-sm">
+    <div class="max-w-7xl mx-auto flex items-center justify-between gap-3">
+      <div class="flex items-center gap-2.5">
+        <span class="w-6 h-6 rounded-lg bg-emerald-600 flex items-center justify-center shrink-0">
+          <span class="w-2.5 h-2.5 rounded-full bg-white"></span>
+        </span>
+        <span>Install <strong>Shop MODISHA</strong> on your home screen for instant ordering &amp; Black Card access.</span>
+      </div>
+      <div class="flex items-center gap-2 shrink-0">
+        <button id="pwa-install-btn" class="px-3 py-1 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-bold text-xs cursor-pointer">Install App</button>
+        <button id="pwa-dismiss-btn" class="px-2 py-1 text-zinc-400 hover:text-white text-xs cursor-pointer">&times;</button>
+      </div>
+    </div>
+  </div>
 
   <!-- ===================================================================== -->
   <!-- 1. HEADER / NAVBAR                                                    -->
@@ -1091,11 +1097,52 @@ CREATE TABLE IF NOT EXISTS orders (
   <!-- ===================================================================== -->
   <script>
     // =========================================================================
-    // 1. PWA MANIFEST & SERVICE WORKER INITIALIZATION (SELF-CONTAINED)
+    // 1. PWA MANIFEST & SERVICE WORKER INITIALIZATION (GREEN ICON + WHITE DOT)
     // =========================================================================
     (function initPWA() {
-      const iconSvg = `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='112' fill='%23059669'/><path fill='none' stroke='%23FFFFFF' stroke-width='36' stroke-linecap='round' stroke-linejoin='round' d='M112 144h44l36 184h184l32-128H172'/><circle cx='212' cy='384' r='26' fill='%23FFFFFF'/><circle cx='356' cy='384' r='26' fill='%23FFFFFF'/></svg>`;
+      const iconSvg = `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='112' fill='%23059669'/><circle cx='256' cy='256' r='84' fill='%23FFFFFF'/></svg>`;
       const iconDataUri = `data:image/svg+xml;utf8,${encodeURIComponent(iconSvg)}`;
+
+      function generatePngIcon(size) {
+        try {
+          const canvas = document.createElement('canvas');
+          canvas.width = size;
+          canvas.height = size;
+          const ctx = canvas.getContext('2d');
+          const radius = size * 0.22;
+
+          ctx.fillStyle = '#059669';
+          ctx.beginPath();
+          ctx.moveTo(radius, 0);
+          ctx.lineTo(size - radius, 0);
+          ctx.quadraticCurveTo(size, 0, size, radius);
+          ctx.lineTo(size, size - radius);
+          ctx.quadraticCurveTo(size, size, size - radius, size);
+          ctx.lineTo(radius, size);
+          ctx.quadraticCurveTo(0, size, 0, size - radius);
+          ctx.lineTo(0, radius);
+          ctx.quadraticCurveTo(0, 0, radius, 0);
+          ctx.closePath();
+          ctx.fill();
+
+          ctx.fillStyle = '#FFFFFF';
+          ctx.beginPath();
+          ctx.arc(size / 2, size / 2, size * 0.165, 0, Math.PI * 2);
+          ctx.fill();
+
+          return canvas.toDataURL('image/png');
+        } catch (e) {
+          return iconDataUri;
+        }
+      }
+
+      const png192 = generatePngIcon(192);
+      const png512 = generatePngIcon(512);
+
+      const appleTouch = document.getElementById('apple-touch-icon');
+      if (appleTouch && png512.startsWith('data:image/png')) {
+        appleTouch.href = png512;
+      }
 
       const manifest = {
         name: "Shop MODISHA",
@@ -1106,17 +1153,19 @@ CREATE TABLE IF NOT EXISTS orders (
         background_color: "#09090B",
         theme_color: "#059669",
         icons: [
-          { src: iconDataUri, sizes: "192x192", type: "image/svg+xml", purpose: "any maskable" },
-          { src: iconDataUri, sizes: "512x512", type: "image/svg+xml", purpose: "any maskable" }
+          { src: png192, sizes: "192x192", type: "image/png", purpose: "any" },
+          { src: png512, sizes: "512x512", type: "image/png", purpose: "any" },
+          { src: png512, sizes: "512x512", type: "image/png", purpose: "maskable" },
+          { src: iconDataUri, sizes: "any", type: "image/svg+xml", purpose: "any" }
         ]
       };
 
       const manifestBlob = new Blob([JSON.stringify(manifest)], { type: 'application/manifest+json' });
       const manifestUrl = URL.createObjectURL(manifestBlob);
-      const link = document.createElement('link');
-      link.rel = 'manifest';
-      link.href = manifestUrl;
-      document.head.appendChild(link);
+      const manifestLink = document.getElementById('manifestLink');
+      if (manifestLink) {
+        manifestLink.href = manifestUrl;
+      }
 
       // Dynamic Service Worker via Blob URL
       if ('serviceWorker' in navigator) {
@@ -1146,7 +1195,7 @@ CREATE TABLE IF NOT EXISTS orders (
       window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault();
         deferredPrompt = e;
-        document.getElementById('pwa-install-banner').classList.remove('hidden');
+        document.getElementById('pwa-install-banner')?.classList.remove('hidden');
       });
 
       document.getElementById('pwa-install-btn')?.addEventListener('click', async () => {
@@ -1154,11 +1203,11 @@ CREATE TABLE IF NOT EXISTS orders (
         deferredPrompt.prompt();
         await deferredPrompt.userChoice;
         deferredPrompt = null;
-        document.getElementById('pwa-install-banner').classList.add('hidden');
+        document.getElementById('pwa-install-banner')?.classList.add('hidden');
       });
 
       document.getElementById('pwa-dismiss-btn')?.addEventListener('click', () => {
-        document.getElementById('pwa-install-banner').classList.add('hidden');
+        document.getElementById('pwa-install-banner')?.classList.add('hidden');
       });
     })();
 
