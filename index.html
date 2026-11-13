@@ -50,21 +50,17 @@
   <!-- Toast / Non-Blocking Notification Container -->
   <div id="toast-container" class="fixed top-4 right-4 z-[100] flex flex-col gap-2 max-w-sm w-full pointer-events-none px-4 sm:px-0"></div>
 
-  <!-- PWA Install Banner (Shows if browser supports beforeinstallprompt) -->
-  <div id="pwa-install-banner" class="hidden bg-zinc-950 text-white border-b border-emerald-500/30 px-4 py-2.5 text-sm">
-    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
-      <div class="flex items-center gap-2.5">
-        <span class="inline-flex items-center justify-center w-7 h-7 rounded-lg bg-emerald-600 text-white">
-          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
-        </span>
-        <span>Install <strong>Shop MODISHA</strong> on your device for instant ordering &amp; Black Card access.</span>
-      </div>
-      <div class="flex items-center gap-2">
-        <button id="pwa-install-btn" class="px-3.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs transition cursor-pointer">Install App</button>
-        <button id="pwa-dismiss-btn" class="px-2 py-1 text-zinc-400 hover:text-white text-xs cursor-pointer">Dismiss</button>
-      </div>
-    </div>
-  </div>
+  <!-- PWA & Mobile Web App Meta Tags -->
+    <meta name="theme-color" content="#059669">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Shop MODISHA">
+    <meta name="description" content="Shop MODISHA Express WhatsApp Ordering Portal, Local Delivery Service, and Black Card Rewards.">
+
+    <!-- Web App Manifest (Data URI) -->
+    <link rel="manifest" id="manifestLink">
+
 
   <!-- ===================================================================== -->
   <!-- 1. HEADER / NAVBAR                                                    -->
